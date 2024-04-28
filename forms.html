@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url('f.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            width: 90%;
+            max-width: 600px; /* Adjusted maximum width */
+            margin: 50px auto;
+            padding: 20px;
+            text-align: center;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        form {
+            display: grid;
+            gap: 15px;
+            width: 100%;
+            max-width: 400px; /* Adjusted maximum width */
+        }
+        
+        label {
+            font-weight: bold;
+            display: block;
+            text-align: left;
+            color: #555;
+            width: 100%;
+        }
+        
+        input,
+        select,
+        textarea {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            outline: none;
+            transition: border-color 0.3s ease-in-out;
+            width: calc(100% - 24px); /* Adjusted input width */
+            box-sizing: border-box;
+        }
+        
+        button {
+            padding: 12px 20px;
+            background-color: #1a9ece;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            width: calc(100% - 24px); /* Adjusted button width */
+            box-sizing: border-box;
+        }
+        
+        h1 {
+            margin-bottom: 20px;
+            color: #1a9ece;
+            width: 100%;
+        }
+        
+        /* Keep the confirmation message visible */
+        #confirmationMessage {
+            margin-top: 20px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        
+    </style>
+    <title>Hotel Booking Form</title>
+</head>
+<body>
+    <div class="container">
+        <form id="bookingForm">
+            <h1>Hotel Booking</h1>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" placeholder="Enter 10-digit phone" required>
+
+            <label for="address">Address:</label>
+            <textarea id="address" name="address" rows="4" required></textarea>
+
+            <label for="aadhaar">Aadhaar Copy:</label>
+            <input type="file" id="aadhaar" name="aadhaar" accept=".pdf, .jpg, .png" required>
+
+            <label for="checkin">Check-in:</label>
+            <input type="date" id="checkin" name="checkin" required>
+
+            <label for="checkout">Check-out:</label>
+            <input type="date" id="checkout" name="checkout" required>
+
+            <label for="roomType">Room Type:</label>
+            <select id="roomType" name="roomType">
+                <option value="single">Single</option>
+                <option value="double">Double</option>
+                <option value="suite">Suite</option>
+            </select>
+
+            <button type="button" onclick="submitForm()">Submit</button>
+        </form>
+        <div id="confirmationMessage"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
