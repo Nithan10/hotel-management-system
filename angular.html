@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html ng-app="hotelManagementApp">
+
+<head>
+    <title>Complete Your Profile</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-image: url('img/com.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.8); 
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" ng-controller="ProfileController">
+        
+        <h2 class="text-center mb-4">Complete Your Profile</h2>
+        <form ng-submit="submitProfile()" novalidate>
+            <div class="form-group">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" ng-model="profile.firstName" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" ng-model="profile.lastName" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" ng-model="profile.email" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="country">Country:</label>
+                <input type="text" id="country" ng-model="profile.country" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="mobile">Mobile:</label>
+                <input type="text" id="mobile" ng-model="profile.mobile" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" ng-model="profile.dob" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="city">City:</label>
+                <input type="text" id="city" ng-model="profile.city" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" ng-model="profile.password" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" ng-model="profile.confirmPassword" class="form-control"
+                    required>
+                <span ng-show="profile.password !== profile.confirmPassword && profile.confirmPassword">Passwords
+                    do not match.</span>
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" id="specialPromotions" ng-model="profile.specialPromotions" class="form-check-input">
+                <label class="form-check-label" for="specialPromotions">I would like to be kept informed of the
+                    special promotions and offers by Trident Hotels.</label>
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" id="termsConditions" ng-model="profile.termsConditions" class="form-check-input" required>
+                <label class="form-check-label" for="termsConditions">I have understood and agree to the Terms &
+                    Conditions and the Privacy Policy.</label>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            <div class="alert alert-success" role="alert" ng-show="submitted">
+                Profile submitted successfully!
+            </div>
+        </form>
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        var app = angular.module('hotelManagementApp', []);
+        app.controller('ProfileController', function ($scope, $http) {
+            $scope.profile = {};
+            $scope.submitted = false;
+
+            $scope.submitProfile = function () {
+                console.log("Profile submitted:", $scope.profile);
+               
+                $scope.submitted = true;
+            };
+        });
+    </script>
+</body>
+</html>

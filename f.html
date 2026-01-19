@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #36D1DC, #5B86E5); /* Gradient background */
+    }
+
+    .container {
+      margin-top: 50px;
+      color: #100e0e;
+    }
+
+    .card {
+      margin-bottom: 20px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 15px; /* Rounded corners for the card */
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease-in-out; /* Add transition for hover effect */
+    }
+
+    .card:hover {
+      transform: scale(1.05); /* Scale up on hover */
+    }
+
+    #datePickerContainer {
+      margin-bottom: 20px;
+    }
+
+    .btn-danger {
+      background-color: #FF3D68;
+      border-color: #FF3D68;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .btn-danger:hover {
+      background-color: #DC3545;
+      border-color: #DC3545;
+    }
+  </style>
+  <title>Hotel Booking</title>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        Select Dates
+      </div>
+      <div class="card-body">
+        <div class="form-group" id="datePickerContainer">
+          <label for="arrivalDate">Arrival Date:</label>
+          <input type="text" class="form-control datepicker" id="arrivalDate" readonly required>
+        </div>
+
+        <div class="form-group">
+          <label for="departureDate">Departure Date:</label>
+          <input type="text" class="form-control datepicker" id="departureDate" readonly required>
+        </div>
+
+        <a href="g.html"><button class="btn btn-danger">Next</button></a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+  <script>
+    $('.datepicker').datepicker({
+      format: 'yyyy-mm-dd',
+      autoclose: true,
+      startDate: new Date()
+    });
+
+    function goToNextPage() {
+      var arrivalDate = document.getElementById("arrivalDate").value;
+      var departureDate = document.getElementById("departureDate").value;
+
+      if (arrivalDate && departureDate) {
+        document.getElementById("datePickerContainer").style.display = "none";
+        document.getElementById("guestDetailsCard").style.display = "block";
+      } else {
+        alert("Please select both arrival and departure dates.");
+      }
+    }
+
+    document.getElementById('guestDetailsForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      validateAndSubmit();
+    });
+
+  </script>
+</body>
+
+</html>

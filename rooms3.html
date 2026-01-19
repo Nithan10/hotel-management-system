@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
+  <style>
+    :root {
+      --primary-color: #8B4513;
+      --secondary-color: #D4AF37;
+      --dark-color: #1a1a1a;
+      --light-color: #f8f5f2;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #fefefe;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Enhanced Navigation Bar */
+    nav.navbar {
+      background-color: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      padding: 0.8rem 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    nav.navbar.scrolled {
+      padding: 0.5rem 1rem;
+      background-color: rgba(255, 255, 255, 0.98);
+    }
+    
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: var(--primary-color) !important;
+    }
+    
+    .logo-icon {
+      color: var(--secondary-color);
+      margin-right: 10px;
+      font-size: 1.8rem;
+    }
+    
+    .nav-link {
+      color: var(--dark-color) !important;
+      font-weight: 500;
+      margin: 0 8px;
+      padding: 8px 15px !important;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-link:hover {
+      background-color: rgba(139, 69, 19, 0.08);
+      color: var(--primary-color) !important;
+      transform: translateY(-2px);
+    }
+    
+    .nav-link.active {
+      background-color: var(--primary-color);
+      color: white !important;
+    }
+    
+    .book-now-btn {
+      background-color: var(--secondary-color);
+      color: white !important;
+      border-radius: 30px;
+      padding: 8px 25px !important;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .book-now-btn:hover {
+      background-color: #b8941f;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(212, 175, 55, 0.3);
+    }
+
+    /* Breadcrumb */
+    .breadcrumb-nav {
+      background-color: #f8f5f2;
+      padding: 15px 0;
+      margin-top: 76px;
+    }
+    
+    .breadcrumb {
+      background-color: transparent;
+      margin-bottom: 0;
+      padding: 0;
+    }
+    
+    .breadcrumb-item {
+      font-size: 0.95rem;
+    }
+    
+    .breadcrumb-item a {
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .breadcrumb-item a:hover {
+      color: var(--secondary-color);
+      text-decoration: underline;
+    }
+    
+    .breadcrumb-item.active {
+      color: #666;
+    }
+    
+    .breadcrumb-item + .breadcrumb-item::before {
+      content: "›";
+      color: #999;
+      padding: 0 8px;
+    }
+
+    /* Room Detail Header */
+    .room-header {
+      padding: 60px 0 40px;
+      background-color: white;
+    }
+    
+    .room-title {
+      color: var(--primary-color);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+    
+    .room-price-tag {
+      background-color: var(--secondary-color);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 1.3rem;
+      display: inline-block;
+      margin-bottom: 1.5rem;
+    }
+    
+    .room-rating {
+      color: var(--secondary-color);
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    
+    .room-header .lead {
+      font-size: 1.25rem;
+      font-weight: 300;
+      max-width: 800px;
+      margin-bottom: 0;
+    }
+
+    /* Presidential Suite Special Styling */
+    .presidential-badge {
+      background: linear-gradient(45deg, var(--secondary-color), #ffd700);
+      color: #000;
+      padding: 8px 20px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 1rem;
+      display: inline-block;
+      margin-bottom: 1rem;
+      border: 2px solid var(--primary-color);
+    }
+
+    /* Room Gallery */
+    .room-gallery {
+      padding: 40px 0;
+      background-color: #f9f7f4;
+    }
+    
+    .gallery-title {
+      color: var(--primary-color);
+      font-weight: 700;
+      margin-bottom: 2rem;
+      text-align: center;
+      font-size: 2rem;
+    }
+    
+    .main-image {
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      transition: transform 0.3s ease;
+    }
+    
+    .main-image:hover {
+      transform: translateY(-5px);
+    }
+    
+    .main-image img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .main-image:hover img {
+      transform: scale(1.02);
+    }
+    
+    .thumbnail-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .thumbnail {
+      width: 120px;
+      height: 80px;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: all 0.3s ease;
+    }
+    
+    .thumbnail:hover, .thumbnail.active {
+      border-color: var(--secondary-color);
+      transform: translateY(-3px);
+    }
+    
+    .thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Room Details */
+    .room-details {
+      padding: 60px 0;
+      background-color: white;
+    }
+    
+    .section-title {
+      color: var(--primary-color);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      position: relative;
+      display: inline-block;
+      font-size: 2rem;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      width: 70%;
+      height: 3px;
+      background-color: var(--secondary-color);
+      bottom: -10px;
+      left: 15%;
+    }
+    
+    .room-description {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #555;
+      margin-bottom: 2rem;
+      text-align: justify;
+    }
+    
+    .amenities-list {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 2rem;
+    }
+    
+    .amenities-list li {
+      margin-bottom: 12px;
+      font-size: 1.05rem;
+      display: flex;
+      align-items: flex-start;
+    }
+    
+    .amenities-list i {
+      color: var(--secondary-color);
+      width: 24px;
+      margin-right: 10px;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+    
+    .room-specs {
+      background-color: #f9f7f4;
+      border-radius: 10px;
+      padding: 25px;
+      margin-top: 2rem;
+    }
+    
+    .spec-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #e0e0e0;
+      align-items: center;
+    }
+    
+    .spec-item:last-child {
+      border-bottom: none;
+    }
+    
+    .spec-label {
+      color: #666;
+      font-weight: 500;
+    }
+    
+    .spec-value {
+      color: var(--primary-color);
+      font-weight: 600;
+      text-align: right;
+    }
+
+    /* Exclusive Features Box */
+    .exclusive-features {
+      background: linear-gradient(135deg, #f8f5f2, #fffaf0);
+      border: 2px solid var(--secondary-color);
+      border-radius: 10px;
+      padding: 25px;
+      margin-top: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .exclusive-features::before {
+      content: "EXCLUSIVE";
+      position: absolute;
+      top: 10px;
+      right: -30px;
+      background: var(--secondary-color);
+      color: #000;
+      padding: 5px 40px;
+      transform: rotate(45deg);
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+    }
+    
+    .exclusive-features h4 {
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+    }
+
+    /* Booking Card */
+    .booking-card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      padding: 30px;
+      position: sticky;
+      top: 100px;
+      border: 2px solid var(--secondary-color);
+    }
+    
+    .booking-title {
+      color: var(--primary-color);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-size: 1.8rem;
+    }
+    
+    .booking-price {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .price-amount {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--secondary-color);
+      line-height: 1;
+    }
+    
+    .price-period {
+      color: #666;
+      font-size: 1rem;
+      margin-top: 5px;
+    }
+    
+    .booking-form .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .booking-form label {
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 8px;
+      display: block;
+    }
+    
+    .booking-form input, .booking-form select {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 12px 15px;
+      width: 100%;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+    }
+    
+    .booking-form input:focus, .booking-form select:focus {
+      border-color: var(--secondary-color);
+      box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
+      outline: none;
+    }
+    
+    .book-room-btn {
+      background: linear-gradient(45deg, var(--secondary-color), #ffd700);
+      color: #000;
+      border: none;
+      width: 100%;
+      padding: 15px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .book-room-btn:hover {
+      background: linear-gradient(45deg, #ffd700, var(--secondary-color));
+      transform: translateY(-3px);
+      box-shadow: 0 8px 15px rgba(212, 175, 55, 0.3);
+    }
+    
+    .book-room-btn i {
+      margin-right: 8px;
+    }
+    
+    .additional-info {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #eee;
+    }
+    
+    .additional-info p {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .additional-info i {
+      color: var(--secondary-color);
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+
+    /* Butler Service Highlight */
+    .butler-service {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 2rem;
+      text-align: center;
+    }
+    
+    .butler-service h4 {
+      color: var(--secondary-color);
+      margin-bottom: 10px;
+    }
+
+    /* Similar Rooms */
+    .similar-rooms {
+      padding: 60px 0;
+      background-color: #f9f7f4;
+    }
+    
+    .similar-rooms .section-title {
+      display: block;
+      text-align: center;
+    }
+    
+    .similar-rooms .section-title::after {
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+    }
+    
+    .similar-rooms > p {
+      color: #666;
+      max-width: 700px;
+      margin: 0 auto 3rem;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+    
+    .room-card {
+      border: none;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      transition: all 0.4s ease;
+      background-color: white;
+      height: 100%;
+      margin-bottom: 30px;
+    }
+    
+    .room-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+    
+    .room-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .room-card:hover img {
+      transform: scale(1.05);
+    }
+    
+    .room-card .card-body {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .room-card h4 {
+      color: var(--primary-color);
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+      font-size: 1.5rem;
+    }
+    
+    .room-card .price {
+      color: var(--secondary-color);
+      font-weight: 700;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+    
+    .room-card p {
+      color: #666;
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+    }
+    
+    .room-card .btn {
+      align-self: flex-start;
+      border-color: var(--primary-color);
+      color: var(--primary-color);
+      font-weight: 600;
+      padding: 8px 20px;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+    }
+    
+    .room-card .btn:hover {
+      background-color: var(--primary-color);
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    /* Footer */
+    footer {
+      background-color: var(--dark-color);
+      color: white;
+      padding: 80px 0 30px;
+    }
+    
+    .footer-logo {
+      font-size: 2rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 1.5rem;
+      display: inline-block;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .footer-logo:hover {
+      color: var(--secondary-color);
+    }
+    
+    .footer-logo i {
+      margin-right: 10px;
+    }
+    
+    .footer-about {
+      margin-bottom: 2rem;
+      color: #ccc;
+      line-height: 1.7;
+    }
+    
+    .footer-links h5, .footer-contact h5, .footer-newsletter h5 {
+      color: var(--secondary-color);
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
+    
+    .footer-links ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+    
+    .footer-links a:hover {
+      color: var(--secondary-color);
+      padding-left: 5px;
+    }
+    
+    .footer-contact p {
+      margin-bottom: 10px;
+      color: #ccc;
+      display: flex;
+      align-items: flex-start;
+    }
+    
+    .footer-contact i {
+      color: var(--secondary-color);
+      width: 20px;
+      margin-right: 10px;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+    
+    .newsletter-form {
+      display: flex;
+      margin-top: 1rem;
+    }
+    
+    .newsletter-form input {
+      flex: 1;
+      padding: 12px 15px;
+      border: none;
+      border-radius: 4px 0 0 4px;
+      font-size: 1rem;
+    }
+    
+    .newsletter-form button {
+      background-color: var(--secondary-color);
+      color: white;
+      border: none;
+      padding: 0 20px;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .newsletter-form button:hover {
+      background-color: #b8941f;
+    }
+    
+    .social-icons {
+      margin-top: 2rem;
+      display: flex;
+      gap: 10px;
+    }
+    
+    .social-icons a {
+      display: inline-flex;
+      width: 40px;
+      height: 40px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      transition: all 0.3s ease;
+    }
+    
+    .social-icons a:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-5px);
+    }
+    
+    .copyright {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+    
+    .copyright a {
+      color: #aaa;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .copyright a:hover {
+      color: var(--secondary-color);
+      text-decoration: underline;
+    }
+    
+    /* Currency Symbol */
+    .rs-symbol {
+      font-size: 0.8em;
+      vertical-align: super;
+      margin-right: 2px;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 992px) {
+      .room-header .col-lg-8 {
+        text-align: center;
+      }
+      
+      .room-rating {
+        justify-content: center;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .breadcrumb-nav {
+        margin-top: 56px;
+      }
+      
+      .room-header {
+        padding: 40px 0 30px;
+      }
+      
+      .room-title {
+        font-size: 1.8rem;
+      }
+      
+      .main-image img {
+        height: 300px;
+      }
+      
+      .thumbnail {
+        width: 90px;
+        height: 60px;
+      }
+      
+      .booking-card {
+        position: static;
+        margin-top: 2rem;
+      }
+      
+      .section-title {
+        font-size: 1.8rem;
+      }
+      
+      .newsletter-form {
+        flex-direction: column;
+      }
+      
+      .newsletter-form input, .newsletter-form button {
+        width: 100%;
+        border-radius: 4px;
+        margin-bottom: 10px;
+      }
+      
+      .newsletter-form button {
+        padding: 12px;
+      }
+      
+      .exclusive-features::before {
+        font-size: 0.7rem;
+        right: -35px;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .room-title {
+        font-size: 1.6rem;
+      }
+      
+      .room-price-tag {
+        font-size: 1.1rem;
+        padding: 6px 15px;
+      }
+      
+      .room-header .lead {
+        font-size: 1.1rem;
+      }
+      
+      .gallery-title, .section-title {
+        font-size: 1.5rem;
+      }
+      
+      .amenities-list li {
+        font-size: 1rem;
+      }
+      
+      .thumbnail {
+        width: 70px;
+        height: 50px;
+      }
+      
+      .footer-links h5, .footer-contact h5, .footer-newsletter h5 {
+        font-size: 1.1rem;
+      }
+      
+      .exclusive-features::before {
+        display: none;
+      }
+    }
+  </style>
+  <title>Presidential Suite | Grand Luxe Hotel</title>
+</head>
+
+<body>
+
+  <!-- Enhanced Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="home.html">
+        <i class="fas fa-crown logo-icon"></i> Grand Luxe
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="home.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="rooms.html">Rooms</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="service.html">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="angular.html">Guest Portal</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link book-now-btn" href="#booking">Book Now</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb Navigation -->
+  <div class="breadcrumb-nav">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="home.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="rooms.html">Rooms</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Presidential Suite</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Room Header -->
+  <div class="room-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="presidential-badge">
+            <i class="fas fa-crown mr-2"></i> FLAGSHIP SUITE
+          </div>
+          <h1 class="room-title">Presidential Suite</h1>
+          <div class="room-price-tag"><span class="rs-symbol">₹</span>74,500 / night</div>
+          <div class="room-rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <span style="color: #666; margin-left: 10px;">5.0/5 (68 Reviews)</span>
+          </div>
+          <p class="lead">Our most luxurious offering with multiple rooms, private balcony, personal butler service, and exclusive amenities for the ultimate luxury experience.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Room Gallery -->
+  <div class="room-gallery">
+    <div class="container">
+      <h2 class="gallery-title">Presidential Suite Gallery</h2>
+      
+      <!-- Main Image -->
+      <div class="main-image">
+        <img id="mainRoomImage" src="https://images.unsplash.com/photo-1584132967334-10e028bd69f7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Presidential Suite Main Living Area">
+      </div>
+      
+      <!-- Thumbnails -->
+      <div class="thumbnail-container">
+        <div class="thumbnail active" onclick="changeImage('https://images.unsplash.com/photo-1584132967334-10e028bd69f7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+          <img src="https://images.unsplash.com/photo-1584132967334-10e028bd69f7?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="Grand Living Room">
+        </div>
+        <div class="thumbnail" onclick="changeImage('https://images.unsplash.com/photo-1578683010236-d716f9a3f461?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+          <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="Master Bedroom">
+        </div>
+        <div class="thumbnail" onclick="changeImage('https://images.unsplash.com/photo-1600566752355-35792bedcfea?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+          <img src="https://images.unsplash.com/photo-1600566752355-35792bedcfea?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="Private Pool">
+        </div>
+        <div class="thumbnail" onclick="changeImage('https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+          <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="Private Terrace">
+        </div>
+        <div class="thumbnail" onclick="changeImage('https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+          <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="Luxury Bathroom">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Room Details and Booking -->
+  <div class="room-details">
+    <div class="container">
+      <div class="row">
+        <!-- Room Details Column -->
+        <div class="col-lg-8">
+          <h2 class="section-title">The Ultimate Luxury Experience</h2>
+          <p class="room-description">
+            The Presidential Suite at Grand Luxe Hotel represents the pinnacle of luxury accommodation. Spanning over 2,500 square feet across two floors, this magnificent suite offers unparalleled privacy, space, and exclusivity. Designed for heads of state, celebrities, and discerning travelers seeking the absolute best, every aspect of this suite has been meticulously crafted to provide an unforgettable experience.
+          </p>
+          
+          <p class="room-description">
+            Featuring a grand living room with panoramic city views, a formal dining area that seats eight, a fully-equipped gourmet kitchen, two lavish bedrooms with en-suite marble bathrooms, a private study, and a sprawling terrace with an infinity pool, this suite redefines luxury living. Your dedicated butler team is available 24/7 to attend to your every need, ensuring a seamless and extraordinary stay.
+          </p>
+          
+          <!-- Exclusive Features Box -->
+          <div class="exclusive-features">
+            <h4>Exclusive Presidential Privileges</h4>
+            <div class="row">
+              <div class="col-md-6">
+                <ul class="amenities-list">
+                  <li><i class="fas fa-user-tie"></i> Personal Butler & Concierge Team</li>
+                  <li><i class="fas fa-car"></i> Chauffeur-driven Rolls Royce Service</li>
+                  <li><i class="fas fa-key"></i> Private Elevator Access</li>
+                  <li><i class="fas fa-utensils"></i> Private Chef Available</li>
+                </ul>
+              </div>
+              <div class="col-md-6">
+                <ul class="amenities-list">
+                  <li><i class="fas fa-spa"></i> In-Suite Spa Treatments</li>
+                  <li><i class="fas fa-wine-bottle"></i> Premium Wine Cellar Access</li>
+                  <li><i class="fas fa-gem"></i> Luxury Brand Amenities</li>
+                  <li><i class="fas fa-heart"></i> Personalized Welcome Experience</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <h3 class="mt-5 mb-4" style="color: var(--primary-color);">Suite Amenities</h3>
+          <div class="row">
+            <div class="col-md-6">
+              <ul class="amenities-list">
+                <li><i class="fas fa-wifi"></i> Ultra High-speed WiFi (1 Gbps)</li>
+                <li><i class="fas fa-swimming-pool"></i> Private Infinity Pool Access</li>
+                <li><i class="fas fa-concierge-bell"></i> 24/7 Dedicated Butler Service</li>
+                <li><i class="fas fa-car"></i> Private Limousine Service</li>
+                <li><i class="fas fa-tv"></i> 85" 8K Smart TV with Home Theater</li>
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <ul class="amenities-list">
+                <li><i class="fas fa-bed"></i> Two King-size Orthopedic Beds</li>
+                <li><i class="fas fa-wind"></i> Smart Climate Control System</li>
+                <li><i class="fas fa-cocktail"></i> Premium Bar with Personal Mixologist</li>
+                <li><i class="fas fa-tshirt"></i> Custom-made Bathrobes & Slippers</li>
+                <li><i class="fas fa-music"></i> Bowers & Wilkins Sound System</li>
+              </ul>
+            </div>
+          </div>
+          
+          <!-- Butler Service Highlight -->
+          <div class="butler-service">
+            <h4><i class="fas fa-concierge-bell mr-2"></i>24/7 Personal Butler Service</h4>
+            <p>Your dedicated butler team is trained to the highest standards of luxury hospitality, ensuring every aspect of your stay is perfect. From unpacking your luggage to arranging exclusive experiences, your butlers are at your service around the clock.</p>
+          </div>
+          
+          <!-- Suite Specifications -->
+          <div class="room-specs">
+            <h4 style="color: var(--primary-color); margin-bottom: 1.5rem;">Suite Specifications</h4>
+            <div class="spec-item">
+              <span class="spec-label">Total Area</span>
+              <span class="spec-value">2,500 sq. ft. (Two Levels)</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Bedrooms</span>
+              <span class="spec-value">2 Master Bedrooms</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Max Occupancy</span>
+              <span class="spec-value">4 Adults or 2 Adults + 4 Children</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">View</span>
+              <span class="spec-value">360° Panoramic City View</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Check-in / Check-out</span>
+              <span class="spec-value">Flexible (By Arrangement)</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Private Facilities</span>
+              <span class="spec-value">Pool, Terrace, Study, Dining</span>
+            </div>
+          </div>
+          
+          <!-- Additional Services -->
+          <div class="room-specs mt-4">
+            <h4 style="color: var(--primary-color); margin-bottom: 1.5rem;">Additional Services</h4>
+            <div class="spec-item">
+              <span class="spec-label">Airport Transfer</span>
+              <span class="spec-value">Rolls Royce Phantom (Complimentary)</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Dining</span>
+              <span class="spec-value">Private Chef Available On Request</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Entertainment</span>
+              <span class="spec-value">Personalized Itinerary Planning</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Security</span>
+              <span class="spec-value">24/7 Dedicated Security Detail</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Booking Card Column -->
+        <div class="col-lg-4">
+          <div class="booking-card" id="booking">
+            <h3 class="booking-title">Enquire About Presidential Suite</h3>
+            <div class="booking-price">
+              <div class="price-amount"><span class="rs-symbol">₹</span>74,500</div>
+              <div class="price-period">per night (minimum 2 nights)</div>
+              <small style="color: #888; display: block; margin-top: 5px;">(All inclusive - Taxes, Services, Amenities)</small>
+            </div>
+            
+            <form class="booking-form">
+              <div class="form-group">
+                <label for="checkin">Preferred Check-in Date</label>
+                <input type="date" id="checkin" class="form-control" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="checkout">Preferred Check-out Date</label>
+                <input type="date" id="checkout" class="form-control" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="guests">Number of Guests</label>
+                <select id="guests" class="form-control" required>
+                  <option value="1">1 Guest</option>
+                  <option value="2" selected>2 Guests</option>
+                  <option value="3">3 Guests</option>
+                  <option value="4">4 Guests</option>
+                  <option value="5">5+ Guests (Special Arrangement)</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label for="purpose">Purpose of Stay</label>
+                <select id="purpose" class="form-control" required>
+                  <option value="leisure" selected>Leisure / Vacation</option>
+                  <option value="business">Business / Corporate</option>
+                  <option value="celebration">Celebration / Special Event</option>
+                  <option value="diplomatic">Diplomatic / Official</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label for="specialRequests">Special Requests / Requirements</label>
+                <textarea id="specialRequests" class="form-control" rows="3" placeholder="Any special arrangements, dietary requirements, or preferences..."></textarea>
+              </div>
+              
+              <button type="submit" class="book-room-btn">
+                <i class="fas fa-envelope mr-2"></i> Request Presidential Suite
+              </button>
+            </form>
+            
+            <div class="additional-info">
+              <p><i class="fas fa-check-circle"></i> Minimum 2-night stay required</p>
+              <p><i class="fas fa-check-circle"></i> All-inclusive pricing</p>
+              <p><i class="fas fa-check-circle"></i> Complimentary Rolls Royce transfers</p>
+              <p><i class="fas fa-check-circle"></i> Personal butler service included</p>
+              <p><i class="fas fa-check-circle"></i> Advanced security screening</p>
+              <p><i class="fas fa-check-circle"></i> Priority confirmation within 2 hours</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Similar Rooms -->
+  <div class="similar-rooms">
+    <div class="container">
+      <h2 class="section-title text-center">Our Other Premium Suites</h2>
+      <p class="text-center mb-5">Explore our other exceptional accommodations</p>
+      
+      <div class="row">
+        <div class="col-lg-4 col-md-6">
+          <div class="card room-card">
+            <a href="rooms.html">
+              <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Deluxe Room">
+            </a>
+            <div class="card-body">
+              <h4>Deluxe Room</h4>
+              <div class="price"><span class="rs-symbol">₹</span>24,800 / night</div>
+              <p>Spacious room with elegant decor, king-size bed, and city views. Perfect for business or leisure.</p>
+              <a href="rooms.html" class="btn btn-outline-primary">View Details</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card room-card">
+            <a href="rooms2.html">
+              <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Executive Suite">
+            </a>
+            <div class="card-body">
+              <h4>Executive Suite</h4>
+              <div class="price"><span class="rs-symbol">₹</span>41,500 / night</div>
+              <p>Luxurious suite with separate living area, premium amenities, and panoramic city views.</p>
+              <a href="rooms2.html" class="btn btn-outline-primary">View Details</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card room-card">
+            <a href="#">
+              <img src="https://images.unsplash.com/photo-1591088398332-8a7791972843?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Royal Suite">
+            </a>
+            <div class="card-body">
+              <h4>Royal Suite</h4>
+              <div class="price"><span class="rs-symbol">₹</span>52,000 / night</div>
+              <p>Opulent suite with private lounge, premium services, and exclusive hotel privileges.</p>
+              <a href="#" class="btn btn-outline-primary">View Details</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-6">
+          <a href="home.html" class="footer-logo"><i class="fas fa-crown"></i> Grand Luxe</a>
+          <div class="footer-about">
+            <p>Grand Luxe Hotel offers the pinnacle of luxury accommodation with world-class amenities, exceptional service, and an unforgettable guest experience in the heart of the city.</p>
+          </div>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-tripadvisor"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-6">
+          <div class="footer-links">
+            <h5>Quick Links</h5>
+            <ul>
+              <li><a href="home.html">Home</a></li>
+              <li><a href="rooms.html">Rooms & Suites</a></li>
+              <li><a href="service.html">Services</a></li>
+              <li><a href="angular.html">Guest Portal</a></li>
+              <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="footer-contact">
+            <h5>Presidential Suite Enquiries</h5>
+            <p><i class="fas fa-phone"></i> +91 22 1234 5678 (Ext. 1)</p>
+            <p><i class="fas fa-envelope"></i> presidential@grandluxehotel.com</p>
+            <p><i class="fas fa-user-tie"></i> Dedicated Relationship Manager</p>
+            <p><i class="fas fa-clock"></i> 24/7 Priority Support</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="footer-newsletter">
+            <h5>Exclusive Offers</h5>
+            <p>Subscribe for Presidential Suite exclusive updates and special offers.</p>
+            <div class="newsletter-form">
+              <input type="email" placeholder="Your email address">
+              <button type="submit"><i class="fas fa-paper-plane"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2023 Grand Luxe Hotel. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Presidential Suite Terms</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+  
+  <script>
+    // Navbar scroll effect
+    $(window).scroll(function() {
+      if ($(window).scrollTop() > 50) {
+        $('nav').addClass('scrolled');
+      } else {
+        $('nav').removeClass('scrolled');
+      }
+    });
+    
+    // Smooth scrolling for anchor links
+    $('a[href*="#"]').on('click', function(e) {
+      e.preventDefault();
+      
+      $('html, body').animate(
+        {
+          scrollTop: $($(this).attr('href')).offset().top - 70,
+        },
+        500,
+        'linear'
+      );
+    });
+    
+    // Set active nav item
+    $('.nav-link').on('click', function() {
+      $('.nav-link').removeClass('active');
+      $(this).addClass('active');
+    });
+    
+    // Gallery image change function
+    function changeImage(src) {
+      document.getElementById('mainRoomImage').src = src;
+      
+      // Update active thumbnail
+      const thumbnails = document.querySelectorAll('.thumbnail');
+      thumbnails.forEach(thumb => {
+        thumb.classList.remove('active');
+      });
+      
+      event.currentTarget.classList.add('active');
+    }
+    
+    // Set default dates for booking form (minimum 2 nights from today)
+    const today = new Date();
+    const dayAfterTomorrow = new Date(today);
+    dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2);
+    
+    const formatDate = (date) => {
+      return date.toISOString().split('T')[0];
+    };
+    
+    document.getElementById('checkin').value = formatDate(today);
+    document.getElementById('checkout').value = formatDate(dayAfterTomorrow);
+    document.getElementById('checkin').min = formatDate(today);
+    
+    // Update checkout min date when checkin changes (minimum 2 nights)
+    document.getElementById('checkin').addEventListener('change', function() {
+      const checkinDate = new Date(this.value);
+      const minCheckout = new Date(checkinDate);
+      minCheckout.setDate(minCheckout.getDate() + 2);
+      document.getElementById('checkout').min = formatDate(minCheckout);
+      
+      // If checkout is before new minimum, update it
+      const checkoutDate = new Date(document.getElementById('checkout').value);
+      if (checkoutDate <= checkinDate || (checkoutDate - checkinDate) / (1000 * 60 * 60 * 24) < 2) {
+        document.getElementById('checkout').value = formatDate(minCheckout);
+      }
+    });
+    
+    // Calculate total price based on selections
+    function calculateTotal() {
+      const basePrice = 74500;
+      const nights = Math.max(2, Math.floor((new Date(document.getElementById('checkout').value) - new Date(document.getElementById('checkin').value)) / (1000 * 60 * 60 * 24)));
+      const total = basePrice * nights;
+      return total;
+    }
+    
+    // Update price display when form changes
+    function updatePriceDisplay() {
+      const total = calculateTotal();
+      const nights = Math.max(2, Math.floor((new Date(document.getElementById('checkout').value) - new Date(document.getElementById('checkin').value)) / (1000 * 60 * 60 * 24)));
+      
+      document.querySelector('.price-amount').innerHTML = `<span class="rs-symbol">₹</span>${total.toLocaleString('en-IN')}`;
+      document.querySelector('.price-period').textContent = `for ${nights} night${nights > 1 ? 's' : ''} (minimum 2 nights)`;
+    }
+    
+    // Add event listeners to form elements for price calculation
+    document.getElementById('checkin').addEventListener('change', updatePriceDisplay);
+    document.getElementById('checkout').addEventListener('change', updatePriceDisplay);
+    
+    // Booking form submission
+    document.querySelector('.booking-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const total = calculateTotal();
+      const nights = Math.max(2, Math.floor((new Date(document.getElementById('checkout').value) - new Date(document.getElementById('checkin').value)) / (1000 * 60 * 60 * 24)));
+      const purpose = document.getElementById('purpose').options[document.getElementById('purpose').selectedIndex].text;
+      const specialRequests = document.getElementById('specialRequests').value;
+      
+      alert(`Thank you for your Presidential Suite enquiry!\n\nDuration: ${nights} night${nights > 1 ? 's' : ''}\nEstimated Total: ₹${total.toLocaleString('en-IN')}\nPurpose: ${purpose}\n\nOur Presidential Suite Concierge will contact you within 2 hours to discuss your requirements and complete the booking process.\n\nSpecial requests noted: ${specialRequests || 'None'}`);
+      // In a real application, you would send this data to a server
+    });
+    
+    // Initialize price display
+    updatePriceDisplay();
+  </script>
+
+</body>
+
+</html>
