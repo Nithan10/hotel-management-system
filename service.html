@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     
     <style>
         :root {
@@ -14,267 +15,1092 @@
             --brand-gold: #D4AF37;
             --dark-color: #1a1a1a;
             --light-bg: #fcfaf8;
+            --accent-gold: #FFD700;
+            --dark-brown: #5D4037;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--light-bg);
-            overflow-x: hidden;
+            background-color: #fefefe;
+            margin: 0;
+            padding: 0;
             color: #333;
+            overflow-x: hidden;
+            padding-top: 70px;
         }
 
-        /* --- STICKY NAVBAR (Matches Contact.html) --- */
+        /* --- EXACT NAVBAR STYLING FROM INDEX.HTML --- */
         nav.navbar {
             background-color: rgba(255, 255, 255, 0.98);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            padding: 15px 0;
-            transition: 0.3s ease;
-            z-index: 1000;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            padding: 0.8rem 1rem;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: translateZ(0);
+        }
+        
+        nav.navbar.scrolled {
+            padding: 0.5rem 1rem;
+            background-color: rgba(255, 255, 255, 0.99);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px) translateZ(0);
         }
         
         .navbar-brand {
-            font-weight: 800;
-            color: var(--primary-brown) !important;
-            font-size: 1.6rem;
             display: flex;
             align-items: center;
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--primary-brown) !important;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
         }
         
-        .logo-icon { color: var(--brand-gold); margin-right: 12px; }
+        .navbar-brand:hover {
+            transform: rotateY(10deg) scale(1.05);
+        }
+        
+        .logo-icon {
+            color: var(--brand-gold);
+            margin-right: 10px;
+            font-size: 1.8rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
         
         .nav-link {
-            color: #333 !important;
-            font-weight: 600;
-            margin: 0 5px;
-            padding: 10px 20px !important;
-            transition: 0.3s;
-            border-radius: 6px;
+            color: var(--dark-color) !important;
+            font-weight: 500;
+            margin: 0 8px;
+            padding: 8px 15px !important;
+            border-radius: 4px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            transform-style: preserve-3d;
         }
-
-        .nav-link.active-page {
-            background-color: var(--primary-brown) !important;
+        
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--brand-gold);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s ease;
+        }
+        
+        .nav-link:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary-brown) !important;
+            transform: translateY(-3px) translateZ(10px);
+        }
+        
+        .nav-link.active {
+            background-color: var(--primary-brown);
             color: white !important;
+            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
         }
-
+        
         .book-now-btn {
-            background-color: var(--brand-gold) !important;
+            background-color: var(--brand-gold);
             color: white !important;
-            border-radius: 25px;
-            padding: 10px 25px !important;
+            border-radius: 30px;
+            padding: 8px 25px !important;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
-            margin-left: 15px;
-            font-weight: 700;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .book-now-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.7s ease;
+            z-index: -1;
+        }
+        
+        .book-now-btn:hover {
+            background-color: #b8941f;
+            transform: translateY(-3px) translateZ(10px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+        }
+        
+        .book-now-btn:hover::before {
+            left: 100%;
         }
 
-        /* --- HERO SECTION --- */
+        /* --- PARALLAX HERO SECTION --- */
         .services-hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1920&q=80');
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             color: white;
-            padding: 120px 0;
+            padding: 150px 0 120px;
             text-align: center;
-            margin-top: 75px;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
         }
 
-        /* --- 3D TILT CARDS --- */
+        .services-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(139, 69, 19, 0.15) 0%, transparent 50%);
+            animation: pulseLight 20s infinite alternate;
+        }
+
+        @keyframes pulseLight {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .floating-element {
+            position: absolute;
+            background: radial-gradient(circle, var(--brand-gold) 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: floatAround 25s infinite linear;
+        }
+
+        @keyframes floatAround {
+            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            25% { transform: translate(100px, 100px) rotate(90deg) scale(1.2); }
+            50% { transform: translate(200px, 0) rotate(180deg) scale(1); }
+            75% { transform: translate(100px, -100px) rotate(270deg) scale(0.8); }
+            100% { transform: translate(0, 0) rotate(360deg) scale(1); }
+        }
+
+        /* --- 3D TILT CARDS ENHANCED --- */
         .service-card {
             background: white;
-            border-radius: 20px;
-            padding: 60px 30px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            border-radius: 25px;
+            padding: 80px 30px 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
             margin-bottom: 30px;
-            transition: 0.4s;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             height: 100%;
             transform-style: preserve-3d;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(212, 175, 55, 0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.8s ease;
+            z-index: 0;
+        }
+
+        .service-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px) rotateX(5deg) rotateY(5deg) scale(1.05);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.2);
         }
 
         .service-icon {
-            width: 80px; height: 80px;
+            width: 100px; 
+            height: 100px;
             background: linear-gradient(135deg, var(--primary-brown), var(--brand-gold));
             color: white;
             border-radius: 50%;
             display: flex;
-            align-items: center; justify-content: center;
-            margin: -90px auto 25px;
-            font-size: 2rem;
+            align-items: center; 
+            justify-content: center;
+            margin: -110px auto 30px;
+            font-size: 2.5rem;
             transform: translateZ(50px);
-            box-shadow: 0 8px 20px rgba(139, 69, 19, 0.3);
+            box-shadow: 0 15px 35px rgba(139, 69, 19, 0.4);
+            position: relative;
+            z-index: 2;
+            transition: all 0.5s ease;
         }
 
-        /* --- PREMIUM GLASS SECTION --- */
+        .service-card:hover .service-icon {
+            transform: translateZ(70px) scale(1.1) rotateY(180deg);
+            box-shadow: 0 20px 50px rgba(139, 69, 19, 0.6);
+        }
+
+        /* --- PREMIUM GLASS SECTION ENHANCED --- */
         .premium-services {
-            padding: 100px 0;
+            padding: 120px 0;
             background: linear-gradient(135deg, var(--dark-color) 0%, #2a1a10 100%);
             color: white;
             margin-bottom: 0;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .premium-services::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            animation: rotate 40s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 40px;
-            transition: 0.4s;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 25px;
+            padding: 50px 30px;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             height: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
+            transform-style: preserve-3d;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--brand-gold), var(--accent-gold));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .glass-card:hover::before {
+            transform: scaleX(1);
         }
 
         .glass-card:hover {
             border-color: var(--brand-gold);
-            transform: translateY(-10px);
+            transform: translateY(-15px) translateZ(30px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.12);
         }
 
-        /* --- FOOTER (Matches Contact.html Exactly) --- */
+        /* --- NEW FEATURES SECTION --- */
+        .features-section {
+            padding: 120px 0;
+            background: linear-gradient(135deg, #f9f7f4 0%, #ffffff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-3d-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .feature-3d-card:hover {
+            transform: translateY(-10px) rotateX(3deg) rotateY(3deg) translateZ(20px);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+        }
+
+        .feature-number {
+            position: absolute;
+            top: -20px;
+            right: 20px;
+            font-size: 5rem;
+            font-weight: 900;
+            color: rgba(139, 69, 19, 0.1);
+            transform: translateZ(-10px);
+            transition: all 0.5s ease;
+        }
+
+        .feature-3d-card:hover .feature-number {
+            color: rgba(212, 175, 55, 0.2);
+            transform: translateZ(-20px) scale(1.2);
+        }
+
+        /* --- NEW PRICING CARDS --- */
+        .pricing-section {
+            padding: 120px 0;
+            background: linear-gradient(135deg, #f5f1eb 0%, #ffffff 100%);
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 25px;
+            padding: 50px 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            transform-style: preserve-3d;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-20px) rotateX(5deg) scale(1.05);
+            box-shadow: 0 35px 80px rgba(0,0,0,0.2);
+        }
+
+        .pricing-card.featured {
+            background: linear-gradient(135deg, var(--primary-brown), var(--dark-brown));
+            color: white;
+            transform: translateZ(30px);
+        }
+
+        .pricing-card.featured:hover {
+            transform: translateY(-20px) rotateX(5deg) scale(1.05) translateZ(40px);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: var(--brand-gold);
+            color: white;
+            padding: 8px 40px;
+            transform: rotate(45deg);
+            font-weight: 700;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* --- FOOTER MATCHING INDEX.HTML --- */
         footer {
-            background-color: var(--dark-color);
+            background: linear-gradient(135deg, #0c0c0c 0%, #2a2a2a 100%);
             color: white;
             padding: 80px 0 30px;
-            margin-top: 0;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            overflow: hidden;
         }
         
-        .footer-logo { font-size: 2rem; font-weight: 700; color: white; margin-bottom: 1.5rem; display: inline-block; text-decoration: none !important; }
-        
-        .footer-links h5, .footer-contact h5, .footer-newsletter h5 { color: var(--brand-gold); margin-bottom: 1.5rem; font-weight: 600; }
-        
-        .footer-links ul { list-style: none; padding-left: 0; }
-        
-        /* Updated Quick Links Theme Color from Image */
-        .footer-links a { 
-            color: #ccc; 
-            text-decoration: none; 
-            transition: 0.3s; 
-            display: block;
-            margin-bottom: 0.8rem;
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-brown), var(--brand-gold));
         }
         
-        .footer-links a:hover { color: var(--brand-gold) !important; padding-left: 5px; }
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            transition: all 0.4s ease;
+        }
+        
+        .footer-logo:hover {
+            color: var(--brand-gold);
+            transform: translateY(-3px);
+        }
+        
+        .footer-links h5, .footer-contact h5, .footer-newsletter h5 {
+            color: var(--brand-gold);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-links h5::after, .footer-contact h5::after, .footer-newsletter h5::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--brand-gold);
+        }
+        
+        .footer-links ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+            transform: translateX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .footer-links li:hover {
+            transform: translateX(10px);
+        }
+        
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .footer-links a:hover {
+            color: var(--brand-gold);
+        }
+        
+        .footer-contact p {
+            margin-bottom: 15px;
+            color: #ccc;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .footer-contact i {
+            color: var(--brand-gold);
+            width: 20px;
+            margin-right: 10px;
+            margin-top: 5px;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            margin-top: 1rem;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+        }
+        
+        .newsletter-form input::placeholder {
+            color: #aaa;
+        }
+        
+        .newsletter-form button {
+            background-color: var(--brand-gold);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .newsletter-form button:hover {
+            background-color: #b8941f;
+        }
+        
+        .social-icons {
+            margin-top: 2rem;
+        }
         
         .social-icons a {
-            display: inline-flex; width: 40px; height: 40px; background: rgba(255,255,255,0.1);
-            border-radius: 50%; align-items: center; justify-content: center; color: white; margin-right: 10px; transition: 0.4s;
+            display: inline-block;
+            width: 45px;
+            height: 45px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 45px;
+            color: white;
+            margin-right: 10px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .social-icons a:hover { background: var(--brand-gold); transform: translateY(-5px); }
         
-        .newsletter-form { display: flex; }
-        .newsletter-form input { border-radius: 4px 0 0 4px; border: none; padding: 10px; flex: 1; outline: none; }
-        .newsletter-form button { border-radius: 0 4px 4px 0; border: none; background: var(--brand-gold); padding: 10px 20px; transition: 0.3s; }
-        .newsletter-form button:hover { background: #b8941f; }
+        .social-icons a:hover {
+            background-color: var(--brand-gold);
+            transform: translateY(-5px) rotate(10deg);
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
 
+        /* --- CUSTOM UTILITIES --- */
         .text-warning-gold { color: var(--brand-gold) !important; }
+        .bg-gradient-brown { background: linear-gradient(135deg, var(--primary-brown), var(--dark-brown)) !important; }
+        .bg-gradient-gold { background: linear-gradient(135deg, var(--brand-gold), var(--accent-gold)) !important; }
+        .shadow-gold { box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3) !important; }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1rem;
+            padding-bottom: 15px;
+            color: var(--primary-brown);
+            font-weight: 700;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-brown), var(--brand-gold));
+            border-radius: 2px;
+        }
+        
+        .section-subtitle {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+        
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .card-icon-container {
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .card-title {
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary-brown);
+        }
+        
+        .card-text {
+            flex-grow: 1;
+            text-align: center;
+            color: #666;
+        }
+        
+        .list-unstyled {
+            text-align: left;
+            padding-left: 20px;
+        }
+        
+        .list-unstyled li {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .star-rating i {
+            margin: 0 2px;
+        }
+        
+        .hero-cta {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .card-badges {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .badge {
+            border-radius: 20px;
+            font-weight: 500;
+            padding: 6px 12px;
+            font-size: 0.8rem;
+        }
+        
+        .btn-align-center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .row-equal-height {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .row-equal-height > [class*='col-'] {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 70px;
+            }
+            
+            .services-hero {
+                padding: 120px 0 80px;
+            }
+            
+            .service-card, .glass-card, .feature-3d-card {
+                margin-bottom: 30px;
+            }
+            
+            .service-card:hover {
+                transform: translateY(-10px) scale(1.03);
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .newsletter-form input, .newsletter-form button {
+                width: 100%;
+                border-radius: 4px;
+                margin-bottom: 10px;
+            }
+            
+            .newsletter-form button {
+                border-radius: 4px;
+            }
+            
+            .footer-links,
+            .footer-contact,
+            .footer-newsletter {
+                margin-bottom: 30px;
+            }
+            
+            .navbar-brand {
+                font-size: 1.6rem;
+            }
+            
+            .services-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .services-hero p {
+                font-size: 1.1rem;
+            }
+        }
+        
+        /* Mobile menu adjustments */
+        @media (max-width: 991px) {
+            .navbar-collapse {
+                background-color: white;
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                padding: 15px;
+                margin-top: 10px;
+            }
+            
+            .nav-link {
+                margin: 5px 0;
+                text-align: left;
+                padding: 12px 20px !important;
+            }
+            
+            .book-now-btn {
+                margin: 10px 0 0 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .navbar-nav.ml-auto {
+                margin-left: 0 !important;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg fixed-top">
+    <!-- EXACT NAVBAR FROM INDEX.HTML -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
         <div class="container">
             <a class="navbar-brand" href="index.html">
                 <i class="fas fa-crown logo-icon"></i> Grand Luxe
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto align-items-center">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="guest.html">Rooms</a></li>
-                    <li class="nav-item"><a class="nav-link active-page" href="service.html">Services</a></li>
-                    <li class="nav-item"><a class="nav-link" href="angular.html">Guest Portal</a></li>
-                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-                    <li class="nav-item"><a class="nav-link book-now-btn" href="#">Book Now</a></li>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="guest.html">Rooms</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="service.html">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="angular.html">Guest Portal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link book-now-btn" href="#">Book Now</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 
     <header class="services-hero">
-        <div class="container" data-aos="zoom-in">
-            <h1 class="display-3 font-weight-bold" style="color: var(--brand-gold);">World-Class Hospitality</h1>
-            <p class="lead">Every detail curated for your ultimate comfort and luxury stay.</p>
+        <div class="floating-elements">
+            <div class="floating-element" style="width: 150px; height: 150px; top: 10%; left: 10%; animation-delay: 0s;"></div>
+            <div class="floating-element" style="width: 100px; height: 100px; top: 60%; right: 15%; animation-delay: 5s;"></div>
+            <div class="floating-element" style="width: 200px; height: 200px; bottom: 10%; left: 20%; animation-delay: 10s;"></div>
+        </div>
+        <div class="container" data-aos="zoom-in" data-aos-duration="1500">
+            <h1 class="display-3 font-weight-bold animate__animated animate__fadeInDown" style="color: var(--brand-gold); margin-bottom: 1.5rem;">Ultimate Luxury Services</h1>
+            <p class="lead animate__animated animate__fadeIn animate__delay-1s" style="font-size: 1.4rem; max-width: 700px; margin: 0 auto 2rem; line-height: 1.6;">
+                Experience bespoke hospitality with our exclusive 5-star services, designed to exceed every expectation.
+            </p>
+            <div class="hero-cta animate__animated animate__fadeInUp animate__delay-2s">
+                <button class="btn btn-lg" style="background-color: var(--brand-gold); color: white; border: none; padding: 14px 35px; font-size: 1.1rem; border-radius: 30px; font-weight: 600; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); position: relative; overflow: hidden;">
+                    <i class="fas fa-concierge-bell mr-2"></i>Explore All Services
+                </button>
+            </div>
         </div>
     </header>
 
+    <!-- Core Services Section -->
     <section class="py-5">
         <div class="container py-5">
-            <div class="text-center mb-5" data-aos="fade-up">
-                <h2 class="font-weight-bold" style="color: var(--primary-brown);">Our Core Services</h2>
-                <div style="width: 60px; height: 4px; background: var(--brand-gold); margin: 20px auto;"></div>
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Premium Services</h2>
+                <p class="section-subtitle mt-3">Every service is crafted with meticulous attention to detail for your ultimate comfort</p>
             </div>
-            <div class="row text-center mt-5">
+            
+            <div class="row row-equal-height mt-5">
                 <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="service-card" data-tilt>
+                    <div class="service-card" data-tilt data-tilt-scale="1.05" data-tilt-glare="true">
                         <div class="service-icon"><i class="fas fa-concierge-bell"></i></div>
-                        <h4 class="font-weight-bold">24/7 Concierge</h4>
-                        <p class="text-muted">Bespoke assistance for travel, dining reservations, and exclusive city tours.</p>
+                        <div class="card-content">
+                            <h4 class="card-title font-weight-bold mb-3">24/7 Concierge</h4>
+                            <p class="card-text">
+                                Personalized assistance for travel arrangements, exclusive dining reservations, and bespoke city experiences.
+                            </p>
+                            <div class="card-badges mt-4">
+                                <span class="badge bg-gradient-brown text-white px-3 py-2">Priority Access</span>
+                                <span class="badge bg-gradient-gold text-white px-3 py-2">Multi-lingual</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                
                 <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="service-card" data-tilt>
+                    <div class="service-card" data-tilt data-tilt-scale="1.05" data-tilt-glare="true">
                         <div class="service-icon"><i class="fas fa-spa"></i></div>
-                        <h4 class="font-weight-bold">Royal Wellness</h4>
-                        <p class="text-muted">Signature massage therapies and skincare treatments in our award-winning spa.</p>
+                        <div class="card-content">
+                            <h4 class="card-title font-weight-bold mb-3">Royal Wellness Spa</h4>
+                            <p class="card-text">
+                                Signature treatments, aromatherapy, and holistic therapies in our award-winning luxury spa sanctuary.
+                            </p>
+                            <div class="card-badges mt-4">
+                                <span class="badge bg-gradient-brown text-white px-3 py-2">Award Winning</span>
+                                <span class="badge bg-gradient-gold text-white px-3 py-2">Holistic Care</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                
                 <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
-                    <div class="service-card" data-tilt>
+                    <div class="service-card" data-tilt data-tilt-scale="1.05" data-tilt-glare="true">
                         <div class="service-icon"><i class="fas fa-utensils"></i></div>
-                        <h4 class="font-weight-bold">Gourmet Dining</h4>
-                        <p class="text-muted">Experience Michelin-star flavors crafted by world-renowned chefs at any hour.</p>
+                        <div class="card-content">
+                            <h4 class="card-title font-weight-bold mb-3">Gourmet Dining</h4>
+                            <p class="card-text">
+                                Michelin-star culinary experiences with personalized menus crafted by world-renowned master chefs.
+                            </p>
+                            <div class="card-badges mt-4">
+                                <span class="badge bg-gradient-brown text-white px-3 py-2">Michelin Star</span>
+                                <span class="badge bg-gradient-gold text-white px-3 py-2">24/7 Available</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Premium Experiences Section -->
     <section class="premium-services text-center">
         <div class="container">
-            <h2 class="font-weight-bold mb-5" data-aos="fade-down">Premium Experiences</h2>
-            <div class="row mt-5">
-                <div class="col-md-4 mb-4" data-aos="flip-left">
+            <div class="section-header" data-aos="fade-down">
+                <h2 class="section-title" style="color: var(--brand-gold);">Exclusive Experiences</h2>
+                <p class="section-subtitle mt-3" style="color: rgba(255,255,255,0.8);">
+                    Beyond ordinary hospitality – curated moments of luxury
+                </p>
+            </div>
+            
+            <div class="row row-equal-height mt-5">
+                <div class="col-md-4 mb-4" data-aos="flip-left" data-aos-duration="1000">
                     <div class="glass-card">
-                        <i class="fas fa-car-side mb-3" style="font-size: 2.5rem; color: var(--brand-gold);"></i>
-                        <h4 class="font-weight-bold">Chauffeur Service</h4>
-                        <p class="small text-muted">Arrive in style with our fleet of luxury vehicles and personal drivers.</p>
+                        <div class="card-icon-container">
+                            <div style="width: 80px; height: 80px; background: rgba(212, 175, 55, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-car-side" style="font-size: 2.5rem; color: var(--brand-gold);"></i>
+                            </div>
+                        </div>
+                        <h4 class="card-title font-weight-bold mb-3">Luxury Chauffeur</h4>
+                        <p class="card-text small">
+                            Arrive in absolute style with our fleet of premium vehicles and professional chauffeurs available 24/7.
+                        </p>
+                        <div class="star-rating mt-3">
+                            <i class="fas fa-star text-warning-gold"></i>
+                            <i class="fas fa-star text-warning-gold"></i>
+                            <i class="fas fa-star text-warning-gold"></i>
+                            <i class="fas fa-star text-warning-gold"></i>
+                            <i class="fas fa-star text-warning-gold"></i>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-4" data-aos="flip-left" data-aos-delay="200">
+                
+                <div class="col-md-4 mb-4" data-aos="flip-left" data-aos-duration="1000" data-aos-delay="200">
                     <div class="glass-card">
-                        <i class="fas fa-user-tie mb-3" style="font-size: 2.5rem; color: var(--brand-gold);"></i>
-                        <h4 class="font-weight-bold">Personal Butler</h4>
-                        <p class="small text-muted">Dedicated butler service available for all suites to handle every request.</p>
+                        <div class="card-icon-container">
+                            <div style="width: 80px; height: 80px; background: rgba(212, 175, 55, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-user-tie" style="font-size: 2.5rem; color: var(--brand-gold);"></i>
+                            </div>
+                        </div>
+                        <h4 class="card-title font-weight-bold mb-3">Personal Butler</h4>
+                        <p class="card-text small">
+                            Dedicated butler service for all suites, attending to every detail of your stay with discreet excellence.
+                        </p>
+                        <div class="star-rating mt-3">
+                            <i class="fas fa-star text-warning-gold"></i>
+                            <i class="fas fa-star text-warning-gold"></i>
+                            <i class="fas fa-star text-warning-gold"></i>
+                            <i class="fas fa-star text-warning-gold"></i>
+                            <i class="fas fa-star-half-alt text-warning-gold"></i>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-4" data-aos="flip-left" data-aos-delay="400">
+                
+                <div class="col-md-4 mb-4" data-aos="flip-left" data-aos-duration="1000" data-aos-delay="400">
                     <div class="glass-card">
-                        <i class="fas fa-plane-departure mb-3" style="font-size: 2.5rem; color: var(--brand-gold);"></i>
-                        <h4 class="font-weight-bold">Airport VIP</h4>
-                        <p class="small text-muted">Hassle-free airport transfers and priority lounge access for elite guests.</p>
+                        <div class="card-icon-container">
+                            <div style="width: 80px; height: 80px; background: rgba(212, 175, 55, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-plane-departure" style="font-size: 2.5rem; color: var(--brand-gold);"></i>
+                            </div>
+                        </div>
+                        <h4 class="card-title font-weight-bold mb-3">Airport VIP</h4>
+                        <p class="card-text small">
+                            Priority airport services including fast-track immigration, lounge access, and seamless luggage handling.
+                        </p>
+                        <div class="star-rating mt-3">
+                            <i class="fas fa-star text-warning-gold"></i>
+                            <i class="fas fa-star text-warning-gold"></i>
+                            <i class="fas fa-star text-warning-gold"></i>
+                            <i class="fas fa-star text-warning-gold"></i>
+                            <i class="fas fa-star text-warning-gold"></i>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Additional Services Section -->
+    <section class="features-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Additional Services</h2>
+                <p class="section-subtitle mt-3">Comprehensive amenities for a complete luxury experience</p>
+            </div>
+            
+            <div class="row row-equal-height">
+                <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-3d-card">
+                        <div class="feature-number">01</div>
+                        <div class="card-icon-container">
+                            <i class="fas fa-dumbbell mb-4" style="font-size: 2.5rem; color: var(--brand-gold);"></i>
+                        </div>
+                        <h5 class="card-title font-weight-bold">Fitness Center</h5>
+                        <p class="card-text">State-of-the-art equipment with personal trainers</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-3d-card">
+                        <div class="feature-number">02</div>
+                        <div class="card-icon-container">
+                            <i class="fas fa-swimming-pool mb-4" style="font-size: 2.5rem; color: var(--brand-gold);"></i>
+                        </div>
+                        <h5 class="card-title font-weight-bold">Infinity Pool</h5>
+                        <p class="card-text">Rooftop heated pool with panoramic city views</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-3d-card">
+                        <div class="feature-number">03</div>
+                        <div class="card-icon-container">
+                            <i class="fas fa-business-time mb-4" style="font-size: 2.5rem; color: var(--brand-gold);"></i>
+                        </div>
+                        <h5 class="card-title font-weight-bold">Business Center</h5>
+                        <p class="card-text">Full executive services with meeting facilities</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-3d-card">
+                        <div class="feature-number">04</div>
+                        <div class="card-icon-container">
+                            <i class="fas fa-child mb-4" style="font-size: 2.5rem; color: var(--brand-gold);"></i>
+                        </div>
+                        <h5 class="card-title font-weight-bold">Kids Club</h5>
+                        <p class="card-text">Supervised activities and entertainment for children</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Packages Section -->
+    <section class="pricing-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Service Packages</h2>
+                <p class="section-subtitle mt-3">Choose from our curated service packages for your perfect stay</p>
+            </div>
+            
+            <div class="row row-equal-height">
+                <div class="col-lg-4 mb-4" data-aos="fade-right" data-aos-duration="1000">
+                    <div class="pricing-card">
+                        <h4 class="font-weight-bold mb-3">Essential</h4>
+                        <div class="display-4 font-weight-bold text-warning-gold mb-3">$199</div>
+                        <p class="text-muted mb-4">Per day</p>
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> Basic Concierge</li>
+                            <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> Room Service</li>
+                            <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> Daily Housekeeping</li>
+                            <li class="mb-2"><i class="fas fa-times text-muted mr-2"></i> Personal Butler</li>
+                            <li class="mb-2"><i class="fas fa-times text-muted mr-2"></i> Airport VIP</li>
+                        </ul>
+                        <button class="btn" style="border: 2px solid var(--primary-brown); color: var(--primary-brown); background: transparent; padding: 10px 25px; border-radius: 30px; font-weight: 600; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);" onmouseover="this.style.background='var(--primary-brown)'; this.style.color='white';" onmouseout="this.style.background='transparent'; this.style.color='var(--primary-brown)';">Select Package</button>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                    <div class="pricing-card featured">
+                        <div class="pricing-badge">Popular</div>
+                        <h4 class="font-weight-bold mb-3">Premium</h4>
+                        <div class="display-4 font-weight-bold mb-3">$499</div>
+                        <p class="mb-4">Per day</p>
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-2"><i class="fas fa-check mr-2"></i> Priority Concierge</li>
+                            <li class="mb-2"><i class="fas fa-check mr-2"></i> Gourmet Dining</li>
+                            <li class="mb-2"><i class="fas fa-check mr-2"></i> Spa Access</li>
+                            <li class="mb-2"><i class="fas fa-check mr-2"></i> Personal Butler</li>
+                            <li class="mb-2"><i class="fas fa-times mr-2"></i> Airport VIP</li>
+                        </ul>
+                        <button class="btn" style="background-color: var(--brand-gold); color: white; border: none; padding: 10px 25px; border-radius: 30px; font-weight: 600; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);" onmouseover="this.style.backgroundColor='#b8941f';" onmouseout="this.style.backgroundColor='var(--brand-gold)';">Select Package</button>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 mb-4" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="400">
+                    <div class="pricing-card">
+                        <h4 class="font-weight-bold mb-3">Ultimate</h4>
+                        <div class="display-4 font-weight-bold text-warning-gold mb-3">$999</div>
+                        <p class="text-muted mb-4">Per day</p>
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> 24/7 Concierge</li>
+                            <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> All Dining</li>
+                            <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> Full Spa Access</li>
+                            <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> Dedicated Butler</li>
+                            <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> Airport VIP</li>
+                        </ul>
+                        <button class="btn" style="border: 2px solid var(--primary-brown); color: var(--primary-brown); background: transparent; padding: 10px 25px; border-radius: 30px; font-weight: 600; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);" onmouseover="this.style.background='var(--primary-brown)'; this.style.color='white';" onmouseout="this.style.background='transparent'; this.style.color='var(--primary-brown)';">Select Package</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 col-md-6">
                     <a href="#" class="footer-logo"><i class="fas fa-crown"></i> Grand Luxe</a>
-                    <p class="text-muted">Grand Luxe Hotel offers world-class amenities and exceptional service in the heart of the city.</p>
+                    <p class="text-muted" style="line-height: 1.6;">
+                        Experience unparalleled luxury with our world-class amenities and exceptional service in the heart of the city.
+                    </p>
                     <div class="social-icons mt-4">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
                         <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-tripadvisor"></i></a>
                     </div>
                 </div>
+                
                 <div class="col-lg-2 col-md-6">
                     <div class="footer-links">
                         <h5>Quick Links</h5>
@@ -282,33 +1108,41 @@
                             <li><a href="index.html">Home</a></li>
                             <li><a href="guest.html">Rooms & Suites</a></li>
                             <li><a href="service.html">Services</a></li>
+                            <li><a href="angular.html">Guest Portal</a></li>
                             <li><a href="contact.html">Contact Us</a></li>
                         </ul>
                     </div>
                 </div>
+                
                 <div class="col-lg-3 col-md-6">
                     <div class="footer-contact">
                         <h5>Contact Info</h5>
-                        <p><i class="fas fa-map-marker-alt"></i> 123 Luxury Ave, City Center</p>
+                        <p><i class="fas fa-map-marker-alt"></i> 123 Luxury Avenue, City Center</p>
                         <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
                         <p><i class="fas fa-envelope"></i> info@grandluxe.com</p>
+                        <p><i class="fas fa-clock"></i> 24/7 Reception</p>
                     </div>
                 </div>
+                
                 <div class="col-lg-3 col-md-6">
                     <div class="footer-newsletter">
                         <h5>Newsletter</h5>
-                        <p class="small text-muted">Join our circle for exclusive offers.</p>
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Email">
-                            <div class="input-group-append">
-                                <button class="btn btn-warning" style="background: var(--brand-gold); border:none;"><i class="fas fa-paper-plane"></i></button>
-                            </div>
+                        <p class="small text-muted" style="line-height: 1.5;">
+                            Subscribe for exclusive offers and updates.
+                        </p>
+                        <div class="newsletter-form">
+                            <input type="email" placeholder="Email Address">
+                            <button type="submit"><i class="fas fa-paper-plane"></i></button>
                         </div>
+                        <p class="small text-muted mt-3" style="line-height: 1.4;">
+                            We respect your privacy. Unsubscribe anytime.
+                        </p>
                     </div>
                 </div>
             </div>
-            <div class="text-center mt-5 pt-4 border-top border-secondary">
-                <p class="small text-muted">&copy; 2026 Grand Luxe Hotel. All rights reserved.</p>
+            
+            <div class="copyright">
+                <p>&copy; 2026 Grand Luxe Hotel. All rights reserved. | <a href="#" style="color: #aaa;">Privacy Policy</a> | <a href="#" style="color: #aaa;">Terms of Service</a></p>
             </div>
         </div>
     </footer>
@@ -319,20 +1153,117 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
     <script>
-        AOS.init({ duration: 1000, once: true });
-        VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
-            max: 15,
-            speed: 400,
-            glare: true,
-            "max-glare": 0.2,
+        // Initialize AOS animations
+        AOS.init({
+            duration: 1200,
+            once: false,
+            mirror: true,
+            offset: 100
         });
 
+        // Enhanced Vanilla Tilt for 3D cards
+        VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+            max: 25,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.3,
+            scale: 1.05,
+            perspective: 1000
+        });
+
+        // Navbar scroll effect matching index.html
         $(window).scroll(function() {
             if ($(window).scrollTop() > 50) {
-                $('nav').css('background', '#fff').css('padding', '10px 0');
+                $('nav').addClass('scrolled');
             } else {
-                $('nav').css('background', 'rgba(255, 255, 255, 0.98)').css('padding', '15px 0');
+                $('nav').removeClass('scrolled');
             }
+            
+            // Parallax effect for hero
+            var scrolled = $(window).scrollTop();
+            $('.services-hero').css('background-position', 'center ' + -(scrolled * 0.5) + 'px');
+            
+            // Animate elements on scroll
+            $('.service-card, .glass-card, .feature-3d-card, .pricing-card').each(function() {
+                var elementTop = $(this).offset().top;
+                var elementBottom = elementTop + $(this).outerHeight();
+                var viewportTop = $(window).scrollTop();
+                var viewportBottom = viewportTop + $(window).height();
+                
+                if (elementBottom > viewportTop && elementTop < viewportBottom) {
+                    $(this).addClass('animate__animated animate__fadeInUp');
+                }
+            });
+        });
+
+        // Hover effect for service cards
+        $('.service-card, .glass-card, .feature-3d-card').hover(
+            function() {
+                $(this).addClass('animate__animated animate__pulse');
+            },
+            function() {
+                $(this).removeClass('animate__animated animate__pulse');
+            }
+        );
+
+        // Button click animations
+        $('.btn').on('click', function() {
+            $(this).addClass('animate__animated animate__bounce');
+            setTimeout(() => {
+                $(this).removeClass('animate__animated animate__bounce');
+            }, 500);
+        });
+
+        // Initialize floating elements
+        $(document).ready(function() {
+            // Create more floating elements
+            for(let i = 0; i < 5; i++) {
+                let size = Math.random() * 100 + 50;
+                let top = Math.random() * 100;
+                let left = Math.random() * 100;
+                let delay = Math.random() * 20;
+                
+                $('.services-hero').append(`
+                    <div class="floating-element" style="
+                        width: ${size}px; 
+                        height: ${size}px; 
+                        top: ${top}%; 
+                        left: ${left}%; 
+                        animation-delay: ${delay}s;
+                        opacity: ${Math.random() * 0.1 + 0.05};
+                    "></div>
+                `);
+            }
+            
+            // Make cards equal height
+            $('.row-equal-height').each(function() {
+                var maxHeight = 0;
+                $(this).find('.service-card, .glass-card, .feature-3d-card, .pricing-card').each(function() {
+                    var thisHeight = $(this).outerHeight();
+                    maxHeight = thisHeight > maxHeight ? thisHeight : maxHeight;
+                });
+                
+                $(this).find('.service-card, .glass-card, .feature-3d-card, .pricing-card').css('min-height', maxHeight + 'px');
+            });
+            
+            // Close mobile menu when clicking a link
+            $('.navbar-nav .nav-link').on('click', function() {
+                $('.navbar-collapse').collapse('hide');
+            });
+            
+            // Set active nav item on click
+            $('.nav-link').on('click', function() {
+                $('.nav-link').removeClass('active');
+                $(this).addClass('active');
+            });
+            
+            // Book Now button animation matching index.html
+            $('.book-now-btn').on('click', function() {
+                $(this).css('transform', 'scale(0.95)');
+                setTimeout(() => {
+                    $(this).css('transform', '');
+                }, 200);
+            });
         });
     </script>
 </body>
