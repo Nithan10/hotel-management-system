@@ -55,11 +55,5 @@ The project is deployed using Vercel for fast and reliable hosting.
 
 🔗 Live Website: https://sid-designs-cv4r.vercel.app/
 
-👨‍💻 Author
-
-SID Designs
-Creating elegant and functional web interfaces ✨
-
-🌐 Portfolio: https://sid-designs.vercel.app/
 
 ⭐ If you like this project, please star the repository to support my work!
