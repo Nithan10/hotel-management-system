@@ -6,12 +6,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
   <style>
     :root {
       --primary-color: #8B4513;
       --secondary-color: #D4AF37;
       --dark-color: #1a1a1a;
       --light-color: #f8f5f2;
+      --accent-color: #c19a6b;
+    }
+    
+    * {
+      box-sizing: border-box;
     }
     
     body {
@@ -20,19 +26,23 @@
       margin: 0;
       padding: 0;
       color: #333;
+      overflow-x: hidden;
     }
 
-    /* Enhanced Navigation Bar */
+    /* Enhanced Navigation Bar with 3D effect */
     nav.navbar {
-      background-color: rgba(255, 255, 255, 0.95);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      background-color: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
       padding: 0.8rem 1rem;
-      transition: all 0.3s ease;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transform: translateZ(0);
     }
     
     nav.navbar.scrolled {
       padding: 0.5rem 1rem;
-      background-color: rgba(255, 255, 255, 0.98);
+      background-color: rgba(255, 255, 255, 0.99);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      transform: translateY(-5px) translateZ(0);
     }
     
     .navbar-brand {
@@ -41,12 +51,19 @@
       font-weight: 700;
       font-size: 1.8rem;
       color: var(--primary-color) !important;
+      transform-style: preserve-3d;
+      transition: transform 0.5s ease;
+    }
+    
+    .navbar-brand:hover {
+      transform: rotateY(10deg) scale(1.05);
     }
     
     .logo-icon {
       color: var(--secondary-color);
       margin-right: 10px;
       font-size: 1.8rem;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
     }
     
     .nav-link {
@@ -55,18 +72,38 @@
       margin: 0 8px;
       padding: 8px 15px !important;
       border-radius: 4px;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      transform-style: preserve-3d;
+    }
+    
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--secondary-color);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.4s ease;
+    }
+    
+    .nav-link:hover::before {
+      transform: scaleX(1);
+      transform-origin: left;
     }
     
     .nav-link:hover {
-      background-color: rgba(139, 69, 19, 0.08);
       color: var(--primary-color) !important;
-      transform: translateY(-2px);
+      transform: translateY(-3px) translateZ(10px);
     }
     
     .nav-link.active {
       background-color: var(--primary-color);
       color: white !important;
+      box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
     }
     
     .book-now-btn {
@@ -75,16 +112,36 @@
       border-radius: 30px;
       padding: 8px 25px !important;
       font-weight: 600;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .book-now-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.7s ease;
+      z-index: -1;
     }
     
     .book-now-btn:hover {
       background-color: #b8941f;
-      transform: translateY(-3px);
-      box-shadow: 0 6px 12px rgba(212, 175, 55, 0.3);
+      transform: translateY(-3px) translateZ(10px);
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+    }
+    
+    .book-now-btn:hover::before {
+      left: 100%;
     }
 
-    /* Header / Featured Section */
+    /* Parallax Header Section */
     header {
       text-align: center;
       padding: 180px 0 150px;
@@ -93,6 +150,37 @@
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 20%, rgba(139, 69, 19, 0.1) 0%, transparent 50%);
+      animation: pulse 15s infinite alternate;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+    
+    .header-content {
+      position: relative;
+      z-index: 2;
+      transform-style: preserve-3d;
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateZ(0); }
+      50% { transform: translateY(-20px) translateZ(20px); }
     }
     
     header h1 {
@@ -100,6 +188,8 @@
       font-weight: 700;
       margin-bottom: 1.5rem;
       text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+      letter-spacing: 1px;
+      transform: translateZ(30px);
     }
     
     header p {
@@ -107,6 +197,7 @@
       max-width: 700px;
       margin: 0 auto 2.5rem;
       text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+      transform: translateZ(20px);
     }
     
     .header-btn {
@@ -117,20 +208,63 @@
       font-size: 1.1rem;
       border-radius: 30px;
       font-weight: 600;
-      transition: all 0.3s ease;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+      transform-style: preserve-3d;
+    }
+    
+    .header-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
     }
     
     .header-btn:hover {
       background-color: #b8941f;
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      transform: translateY(-3px) translateZ(20px);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+    }
+    
+    .header-btn:hover::after {
+      transform: translateX(100%);
     }
 
-    /* Rooms Section */
+    /* Rooms Section with 3D Cards */
     .rooms-section {
-      padding: 100px 0;
-      background-color: #f9f7f4;
+      padding: 120px 0;
+      background: linear-gradient(135deg, #f9f7f4 0%, #ffffff 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .rooms-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+      animation: rotate 40s linear infinite;
+      z-index: 0;
+    }
+    
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .rooms-section .container {
+      position: relative;
+      z-index: 1;
     }
     
     .section-title {
@@ -139,6 +273,7 @@
       margin-bottom: 1rem;
       position: relative;
       display: inline-block;
+      transform-style: preserve-3d;
     }
     
     .section-title::after {
@@ -146,9 +281,11 @@
       position: absolute;
       width: 70%;
       height: 3px;
-      background-color: var(--secondary-color);
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
       bottom: -10px;
       left: 15%;
+      transform: translateZ(-5px);
+      box-shadow: 0 2px 8px rgba(139, 69, 19, 0.3);
     }
     
     .section-subtitle {
@@ -161,32 +298,55 @@
     
     .room-card {
       border: none;
-      border-radius: 10px;
+      border-radius: 15px;
       overflow: hidden;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-      transition: all 0.4s ease;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       background-color: white;
       height: 100%;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      position: relative;
     }
     
     .room-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+      transform: translateY(-15px) rotateX(5deg) rotateY(5deg) scale(1.03);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+    }
+    
+    .room-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, transparent 30%, rgba(212, 175, 55, 0.1) 50%, transparent 70%);
+      transform: translateX(-100%);
+      transition: transform 0.8s ease;
+      z-index: 1;
+    }
+    
+    .room-card:hover::before {
+      transform: translateX(100%);
     }
     
     .room-card img {
       width: 100%;
-      height: 220px;
+      height: 250px;
       object-fit: cover;
-      transition: transform 0.5s ease;
+      transition: transform 0.8s ease;
+      transform-origin: center;
     }
     
     .room-card:hover img {
-      transform: scale(1.05);
+      transform: scale(1.1) rotate(1deg);
     }
     
     .room-card .card-body {
-      padding: 1.5rem;
+      padding: 1.8rem;
+      position: relative;
+      z-index: 2;
     }
     
     .room-card h3 {
@@ -198,8 +358,9 @@
     .room-price {
       color: var(--secondary-color);
       font-weight: 700;
-      font-size: 1.3rem;
+      font-size: 1.5rem;
       margin-bottom: 1rem;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
     }
     
     .room-features {
@@ -209,52 +370,121 @@
     }
     
     .room-features li {
-      margin-bottom: 5px;
+      margin-bottom: 8px;
       color: #666;
+      transition: all 0.3s ease;
+    }
+    
+    .room-features li:hover {
+      color: var(--primary-color);
+      transform: translateX(5px);
     }
     
     .room-features i {
       color: var(--secondary-color);
-      margin-right: 8px;
+      margin-right: 10px;
+      width: 20px;
     }
     
     .view-details-btn {
       background-color: transparent;
       border: 2px solid var(--primary-color);
       color: var(--primary-color);
-      padding: 8px 20px;
+      padding: 10px 25px;
       border-radius: 30px;
       font-weight: 600;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .view-details-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--primary-color);
+      transform: translateX(-100%);
+      transition: transform 0.4s ease;
+      z-index: -1;
     }
     
     .view-details-btn:hover {
-      background-color: var(--primary-color);
       color: white;
+      border-color: var(--primary-color);
+    }
+    
+    .view-details-btn:hover::before {
+      transform: translateX(0);
     }
 
     /* New Content Sections */
     .features-section {
-      padding: 100px 0;
-      background-color: white;
+      padding: 120px 0;
+      background: linear-gradient(135deg, #ffffff 0%, #f8f5f2 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .features-section::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(139, 69, 19, 0.1) 0%, transparent 70%);
+      animation: float 8s ease-in-out infinite;
     }
     
     .feature-box {
       text-align: center;
-      padding: 2rem;
-      border-radius: 10px;
-      transition: all 0.3s ease;
+      padding: 2.5rem;
+      border-radius: 15px;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      background-color: white;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      height: 100%;
+      transform-style: preserve-3d;
+      position: relative;
+    }
+    
+    .feature-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      border-radius: 15px 15px 0 0;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.5s ease;
+    }
+    
+    .feature-box:hover::before {
+      transform: scaleX(1);
     }
     
     .feature-box:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+      transform: translateY(-15px) translateZ(20px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     }
     
     .feature-icon {
-      font-size: 2.5rem;
+      font-size: 3rem;
       color: var(--secondary-color);
       margin-bottom: 1.5rem;
+      display: inline-block;
+      transition: all 0.5s ease;
+      transform-style: preserve-3d;
+    }
+    
+    .feature-box:hover .feature-icon {
+      transform: rotateY(180deg) scale(1.2);
     }
     
     .feature-box h4 {
@@ -262,26 +492,47 @@
       font-weight: 600;
       margin-bottom: 1rem;
     }
-    
-    /* Testimonials */
+
+    /* Testimonials with 3D flip effect */
     .testimonials-section {
-      padding: 100px 0;
-      background-color: #f9f7f4;
+      padding: 120px 0;
+      background: linear-gradient(135deg, #f9f7f4 0%, #ffffff 100%);
+      position: relative;
     }
     
     .testimonial-card {
       background-color: white;
-      border-radius: 10px;
-      padding: 2rem;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+      border-radius: 15px;
+      padding: 2.5rem;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
       margin-bottom: 2rem;
       height: 100%;
+      transition: all 0.5s ease;
+      transform-style: preserve-3d;
+      position: relative;
+    }
+    
+    .testimonial-card:hover {
+      transform: translateY(-10px) rotateX(2deg);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
     }
     
     .testimonial-text {
       font-style: italic;
       color: #555;
       margin-bottom: 1.5rem;
+      position: relative;
+      padding-left: 1.5rem;
+    }
+    
+    .testimonial-text::before {
+      content: '"';
+      position: absolute;
+      top: -15px;
+      left: 0;
+      font-size: 3rem;
+      color: rgba(212, 175, 55, 0.3);
+      font-family: Georgia, serif;
     }
     
     .testimonial-author {
@@ -290,11 +541,18 @@
     }
     
     .author-avatar {
-      width: 60px;
-      height: 60px;
+      width: 70px;
+      height: 70px;
       border-radius: 50%;
       object-fit: cover;
       margin-right: 15px;
+      border: 3px solid var(--secondary-color);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.5s ease;
+    }
+    
+    .testimonial-card:hover .author-avatar {
+      transform: scale(1.1) rotate(5deg);
     }
     
     .author-info h5 {
@@ -313,11 +571,136 @@
       margin-top: 5px;
     }
 
+    /* New Gallery Section */
+    .gallery-section {
+      padding: 120px 0;
+      background-color: white;
+    }
+    
+    .gallery-item {
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 30px;
+      height: 250px;
+      position: relative;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      transform-style: preserve-3d;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .gallery-item:hover {
+      transform: translateY(-10px) rotateY(5deg) scale(1.05);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+    
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s ease;
+    }
+    
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+    
+    .gallery-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+      display: flex;
+      align-items: flex-end;
+      padding: 20px;
+      color: white;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    
+    .gallery-item:hover .gallery-overlay {
+      opacity: 1;
+    }
+
+    /* New Booking CTA Section */
+    .booking-cta {
+      padding: 120px 0;
+      background: linear-gradient(135deg, var(--primary-color) 0%, #6b3310 100%);
+      color: white;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .booking-cta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.1;
+      animation: zoom 20s infinite alternate;
+    }
+    
+    @keyframes zoom {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.1); }
+    }
+    
+    .booking-cta .container {
+      position: relative;
+      z-index: 2;
+    }
+    
+    .booking-cta h2 {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    }
+    
+    .cta-btn {
+      background-color: var(--secondary-color);
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      font-size: 1.2rem;
+      border-radius: 30px;
+      font-weight: 600;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      transform-style: preserve-3d;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .cta-btn:hover {
+      background-color: #b8941f;
+      transform: translateY(-5px) translateZ(20px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+
     /* Footer */
     footer {
-      background-color: var(--dark-color);
+      background: linear-gradient(135deg, #0c0c0c 0%, #2a2a2a 100%);
       color: white;
       padding: 80px 0 30px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
     }
     
     .footer-logo {
@@ -326,6 +709,12 @@
       color: white;
       margin-bottom: 1.5rem;
       display: inline-block;
+      transition: all 0.4s ease;
+    }
+    
+    .footer-logo:hover {
+      color: var(--secondary-color);
+      transform: translateY(-3px);
     }
     
     .footer-about {
@@ -336,6 +725,18 @@
       color: var(--secondary-color);
       margin-bottom: 1.5rem;
       font-weight: 600;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .footer-links h5::after, .footer-contact h5::after, .footer-newsletter h5::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background-color: var(--secondary-color);
     }
     
     .footer-links ul {
@@ -344,29 +745,38 @@
     }
     
     .footer-links li {
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+      transform: translateX(0);
+      transition: transform 0.3s ease;
+    }
+    
+    .footer-links li:hover {
+      transform: translateX(10px);
     }
     
     .footer-links a {
       color: #ccc;
       text-decoration: none;
       transition: all 0.3s ease;
+      display: inline-block;
     }
     
     .footer-links a:hover {
       color: var(--secondary-color);
-      padding-left: 5px;
     }
     
     .footer-contact p {
-      margin-bottom: 10px;
+      margin-bottom: 15px;
       color: #ccc;
+      display: flex;
+      align-items: flex-start;
     }
     
     .footer-contact i {
       color: var(--secondary-color);
       width: 20px;
       margin-right: 10px;
+      margin-top: 5px;
     }
     
     .newsletter-form {
@@ -379,6 +789,12 @@
       padding: 12px 15px;
       border: none;
       border-radius: 4px 0 0 4px;
+      background-color: rgba(255,255,255,0.1);
+      color: white;
+    }
+    
+    .newsletter-form input::placeholder {
+      color: #aaa;
     }
     
     .newsletter-form button {
@@ -388,6 +804,11 @@
       padding: 0 20px;
       border-radius: 0 4px 4px 0;
       cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .newsletter-form button:hover {
+      background-color: #b8941f;
     }
     
     .social-icons {
@@ -396,20 +817,20 @@
     
     .social-icons a {
       display: inline-block;
-      width: 40px;
-      height: 40px;
+      width: 45px;
+      height: 45px;
       background-color: rgba(255, 255, 255, 0.1);
       border-radius: 50%;
       text-align: center;
-      line-height: 40px;
+      line-height: 45px;
       color: white;
       margin-right: 10px;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     
     .social-icons a:hover {
       background-color: var(--secondary-color);
-      transform: translateY(-5px);
+      transform: translateY(-5px) rotate(10deg);
     }
     
     .copyright {
@@ -419,6 +840,23 @@
       border-top: 1px solid rgba(255, 255, 255, 0.1);
       color: #aaa;
       font-size: 0.9rem;
+    }
+    
+    /* Floating elements animation */
+    .floating-element {
+      position: absolute;
+      background-color: rgba(212, 175, 55, 0.1);
+      border-radius: 50%;
+      animation: floatAround 15s infinite linear;
+      z-index: 0;
+    }
+    
+    @keyframes floatAround {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(50px, 50px) rotate(90deg); }
+      50% { transform: translate(100px, 0) rotate(180deg); }
+      75% { transform: translate(50px, -50px) rotate(270deg); }
+      100% { transform: translate(0, 0) rotate(360deg); }
     }
     
     /* Responsive adjustments */
@@ -440,13 +878,24 @@
         border-radius: 4px;
         margin-bottom: 10px;
       }
+      
+      .booking-cta h2 {
+        font-size: 2.2rem;
+      }
+      
+      .feature-box, .testimonial-card {
+        margin-bottom: 30px;
+      }
+      
+      .room-card:hover {
+        transform: translateY(-10px) scale(1.02);
+      }
     }
   </style>
   <title>Grand Luxe Hotel | Luxury Accommodation</title>
 </head>
 
 <body>
-
   <!-- Enhanced Navigation Bar -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top">
     <div class="container">
@@ -484,78 +933,85 @@
 
   <!-- Header / Featured Section -->
   <header>
-    <div class="container">
-      <h1>Welcome to Grand Luxe Hotel</h1>
-      <p>Experience unparalleled luxury and comfort in the heart of the city. Our five-star hotel offers exquisite accommodations, world-class amenities, and exceptional service.</p>
-      <button class="header-btn">Explore Our Rooms</button>
+    <div class="header-content container">
+      <h1 class="animate__animated animate__fadeInDown">Welcome to Grand Luxe Hotel</h1>
+      <p class="animate__animated animate__fadeIn animate__delay-1s">Experience unparalleled luxury and comfort in the heart of the city. Our five-star hotel offers exquisite accommodations, world-class amenities, and exceptional service.</p>
+      <button class="header-btn animate__animated animate__fadeInUp animate__delay-2s">Explore Our Rooms</button>
     </div>
+    
+    <!-- Floating elements -->
+    <div class="floating-element" style="width: 100px; height: 100px; top: 20%; left: 10%;"></div>
+    <div class="floating-element" style="width: 150px; height: 150px; top: 60%; right: 15%;"></div>
+    <div class="floating-element" style="width: 80px; height: 80px; bottom: 20%; left: 20%;"></div>
   </header>
 
   <!-- Rooms Section -->
-  <div class="container rooms-section">
-    <h2 class="section-title text-center">Our Luxurious Rooms</h2>
-    <p class="text-center section-subtitle">Each of our rooms is meticulously designed to provide the ultimate in comfort and style, with premium amenities and breathtaking views.</p>
-    <div class="row">
-      <div class="col-lg-4 col-md-6">
-        <div class="card room-card">
-          <a href="f.html">
-            <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Deluxe Room">
-          </a>
-          <div class="card-body">
-            <h3>Deluxe Room</h3>
-            <div class="room-price">₹20,000 / night</div>
-            <p>Spacious room with elegant decor, king-size bed, and city views. Perfect for business or leisure travelers.</p>
-            <ul class="room-features">
-              <li><i class="fas fa-wifi"></i> High-speed WiFi</li>
-              <li><i class="fas fa-tv"></i> 55" Smart TV</li>
-              <li><i class="fas fa-coffee"></i> Coffee maker</li>
-              <li><i class="fas fa-shower"></i> Luxury bathroom</li>
-            </ul>
-             <a href="rooms.html">
-              <button class="view-details-btn">View Details</button>
+  <div class="rooms-section">
+    <div class="container">
+      <h2 class="section-title text-center animate__animated animate__fadeIn">Our Luxurious Rooms</h2>
+      <p class="text-center section-subtitle animate__animated animate__fadeIn animate__delay-1s">Each of our rooms is meticulously designed to provide the ultimate in comfort and style, with premium amenities and breathtaking views.</p>
+      <div class="row">
+        <div class="col-lg-4 col-md-6 animate__animated animate__fadeInLeft">
+          <div class="card room-card">
+            <a href="f.html">
+              <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Deluxe Room">
             </a>
+            <div class="card-body">
+              <h3>Deluxe Room</h3>
+              <div class="room-price">₹20,000 / night</div>
+              <p>Spacious room with elegant decor, king-size bed, and city views. Perfect for business or leisure travelers.</p>
+              <ul class="room-features">
+                <li><i class="fas fa-wifi"></i> High-speed WiFi</li>
+                <li><i class="fas fa-tv"></i> 55" Smart TV</li>
+                <li><i class="fas fa-coffee"></i> Coffee maker</li>
+                <li><i class="fas fa-shower"></i> Luxury bathroom</li>
+              </ul>
+               <a href="rooms.html">
+                <button class="view-details-btn">View Details</button>
+              </a>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="card room-card">
-          <a href="jq.html">
-            <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Executive Suite">
-          </a>
-          <div class="card-body">
-            <h3>Executive Suite</h3>
-            <div class="room-price">₹40,000 / night</div>
-            <p>Luxurious suite with separate living area, premium amenities, and panoramic city views. Ideal for extended stays.</p>
-            <ul class="room-features">
-              <li><i class="fas fa-wifi"></i> High-speed WiFi</li>
-              <li><i class="fas fa-hot-tub"></i> Jacuzzi tub</li>
-              <li><i class="fas fa-cocktail"></i> Minibar</li>
-              <li><i class="fas fa-utensils"></i> Kitchenette</li>
-            </ul>
-            <a href="rooms2.html">
-              <button class="view-details-btn">View Details</button>
+        <div class="col-lg-4 col-md-6 animate__animated animate__fadeInUp">
+          <div class="card room-card">
+            <a href="jq.html">
+              <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Executive Suite">
             </a>
+            <div class="card-body">
+              <h3>Executive Suite</h3>
+              <div class="room-price">₹40,000 / night</div>
+              <p>Luxurious suite with separate living area, premium amenities, and panoramic city views. Ideal for extended stays.</p>
+              <ul class="room-features">
+                <li><i class="fas fa-wifi"></i> High-speed WiFi</li>
+                <li><i class="fas fa-hot-tub"></i> Jacuzzi tub</li>
+                <li><i class="fas fa-cocktail"></i> Minibar</li>
+                <li><i class="fas fa-utensils"></i> Kitchenette</li>
+              </ul>
+              <a href="rooms2.html">
+                <button class="view-details-btn">View Details</button>
+              </a>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="card room-card">
-          <a href="forms.html">
-            <img src="https://images.unsplash.com/photo-1584132967334-10e028bd69f7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Premium Suite">
-          </a>
-          <div class="card-body">
-            <h3>Presidential Suite</h3>
-            <div class="room-price">₹899 / night</div>
-            <p>Our most luxurious offering with multiple rooms, private balcony, butler service, and exclusive amenities.</p>
-            <ul class="room-features">
-              <li><i class="fas fa-wifi"></i> High-speed WiFi</li>
-              <li><i class="fas fa-swimming-pool"></i> Private pool access</li>
-              <li><i class="fas fa-concierge-bell"></i> 24/7 Butler service</li>
-              <li><i class="fas fa-car"></i> Private limousine service</li>
-            </ul>
-            <a href="rooms3.html">
-              <button class="view-details-btn">View Details</button>
+        <div class="col-lg-4 col-md-6 animate__animated animate__fadeInRight">
+          <div class="card room-card">
+            <a href="forms.html">
+              <img src="https://images.unsplash.com/photo-1584132967334-10e028bd69f7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Premium Suite">
             </a>
+            <div class="card-body">
+              <h3>Presidential Suite</h3>
+              <div class="room-price">₹899 / night</div>
+              <p>Our most luxurious offering with multiple rooms, private balcony, butler service, and exclusive amenities.</p>
+              <ul class="room-features">
+                <li><i class="fas fa-wifi"></i> High-speed WiFi</li>
+                <li><i class="fas fa-swimming-pool"></i> Private pool access</li>
+                <li><i class="fas fa-concierge-bell"></i> 24/7 Butler service</li>
+                <li><i class="fas fa-car"></i> Private limousine service</li>
+              </ul>
+              <a href="rooms3.html">
+                <button class="view-details-btn">View Details</button>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -563,117 +1019,164 @@
   </div>
 
   <!-- Features Section -->
-  <div class="container features-section">
-    <h2 class="section-title text-center">Why Choose Grand Luxe</h2>
-    <p class="text-center section-subtitle">We are committed to providing an unforgettable experience with our premium services and facilities.</p>
-    <div class="row">
-      <div class="col-lg-3 col-md-6">
-        <div class="feature-box">
-          <div class="feature-icon">
-            <i class="fas fa-concierge-bell"></i>
+  <div class="features-section">
+    <div class="container">
+      <h2 class="section-title text-center animate__animated animate__fadeIn">Why Choose Grand Luxe</h2>
+      <p class="text-center section-subtitle animate__animated animate__fadeIn animate__delay-1s">We are committed to providing an unforgettable experience with our premium services and facilities.</p>
+      <div class="row">
+        <div class="col-lg-3 col-md-6 animate__animated animate__fadeInLeft">
+          <div class="feature-box">
+            <div class="feature-icon">
+              <i class="fas fa-concierge-bell"></i>
+            </div>
+            <h4>24/7 Concierge</h4>
+            <p>Our dedicated concierge team is available around the clock to assist with all your needs.</p>
           </div>
-          <h4>24/7 Concierge</h4>
-          <p>Our dedicated concierge team is available around the clock to assist with all your needs.</p>
+        </div>
+        <div class="col-lg-3 col-md-6 animate__animated animate__fadeInUp">
+          <div class="feature-box">
+            <div class="feature-icon">
+              <i class="fas fa-utensils"></i>
+            </div>
+            <h4>Fine Dining</h4>
+            <p>Experience culinary excellence at our award-winning restaurants and bars.</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 animate__animated animate__fadeInUp">
+          <div class="feature-box">
+            <div class="feature-icon">
+              <i class="fas fa-spa"></i>
+            </div>
+            <h4>Luxury Spa</h4>
+            <p>Relax and rejuvenate at our world-class spa with a range of premium treatments.</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 animate__animated animate__fadeInRight">
+          <div class="feature-box">
+            <div class="feature-icon">
+              <i class="fas fa-dumbbell"></i>
+            </div>
+            <h4>Fitness Center</h4>
+            <p>Stay active at our state-of-the-art fitness center with personal trainers available.</p>
+          </div>
         </div>
       </div>
-      <div class="col-lg-3 col-md-6">
-        <div class="feature-box">
-          <div class="feature-icon">
-            <i class="fas fa-utensils"></i>
+    </div>
+  </div>
+
+  <!-- Gallery Section -->
+  <div class="gallery-section">
+    <div class="container">
+      <h2 class="section-title text-center animate__animated animate__fadeIn">Hotel Gallery</h2>
+      <p class="text-center section-subtitle animate__animated animate__fadeIn animate__delay-1s">Explore our stunning facilities and beautiful interiors through our gallery.</p>
+      <div class="row">
+        <div class="col-lg-4 col-md-6 animate__animated animate__fadeInLeft">
+          <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1568495248636-6432b97bd949?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Hotel Lobby">
+            <div class="gallery-overlay">
+              <h5>Grand Lobby</h5>
+            </div>
           </div>
-          <h4>Fine Dining</h4>
-          <p>Experience culinary excellence at our award-winning restaurants and bars.</p>
         </div>
-      </div>
-      <div class="col-lg-3 col-md-6">
-        <div class="feature-box">
-          <div class="feature-icon">
-            <i class="fas fa-spa"></i>
+        <div class="col-lg-4 col-md-6 animate__animated animate__fadeInUp">
+          <div class="gallery-item">
+            <img src="data:image/jpeg;base64,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" alt="Restaurant">
+            <div class="gallery-overlay">
+              <h5>Gourmet Restaurant</h5>
+            </div>
           </div>
-          <h4>Luxury Spa</h4>
-          <p>Relax and rejuvenate at our world-class spa with a range of premium treatments.</p>
         </div>
-      </div>
-      <div class="col-lg-3 col-md-6">
-        <div class="feature-box">
-          <div class="feature-icon">
-            <i class="fas fa-dumbbell"></i>
+        <div class="col-lg-4 col-md-6 animate__animated animate__fadeInRight">
+          <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Spa">
+            <div class="gallery-overlay">
+              <h5>Luxury Spa</h5>
+            </div>
           </div>
-          <h4>Fitness Center</h4>
-          <p>Stay active at our state-of-the-art fitness center with personal trainers available.</p>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Testimonials Section -->
-  <div class="container testimonials-section">
-    <h2 class="section-title text-center">Guest Reviews</h2>
-    <p class="text-center section-subtitle">See what our guests have to say about their experience at Grand Luxe Hotel.</p>
-    <div class="row">
-      <div class="col-lg-4 col-md-6">
-        <div class="testimonial-card">
-          <div class="testimonial-text">
-            "Absolutely stunning hotel with exceptional service. The room was spacious and luxurious, and the staff went above and beyond to make our stay memorable."
+  <div class="testimonials-section">
+    <div class="container">
+      <h2 class="section-title text-center animate__animated animate__fadeIn">Guest Reviews</h2>
+      <p class="text-center section-subtitle animate__animated animate__fadeIn animate__delay-1s">See what our guests have to say about their experience at Grand Luxe Hotel.</p>
+      <div class="row">
+        <div class="col-lg-4 col-md-6 animate__animated animate__fadeInLeft">
+          <div class="testimonial-card">
+            <div class="testimonial-text">
+              "Absolutely stunning hotel with exceptional service. The room was spacious and luxurious, and the staff went above and beyond to make our stay memorable."
+            </div>
+            <div class="testimonial-author">
+              <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Sarah Johnson" class="author-avatar">
+              <div class="author-info">
+                <h5>Sarah Johnson</h5>
+                <p>Business Executive</p>
+                <div class="rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="testimonial-author">
-            <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Sarah Johnson" class="author-avatar">
-            <div class="author-info">
-              <h5>Sarah Johnson</h5>
-              <p>Business Executive</p>
-              <div class="rating">
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
+        </div>
+        <div class="col-lg-4 col-md-6 animate__animated animate__fadeInUp">
+          <div class="testimonial-card">
+            <div class="testimonial-text">
+              "The presidential suite was beyond expectations. The panoramic views, the butler service, every detail was perfect. This is now our go-to hotel in the city."
+            </div>
+            <div class="testimonial-author">
+              <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Michael Chen" class="author-avatar">
+              <div class="author-info">
+                <h5>Michael Chen</h5>
+                <p>Travel Blogger</p>
+                <div class="rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 animate__animated animate__fadeInRight">
+          <div class="testimonial-card">
+            <div class="testimonial-text">
+              "We celebrated our anniversary here and the staff made it truly special. From the rose petals on the bed to the champagne, everything was perfect. Highly recommended!"
+            </div>
+            <div class="testimonial-author">
+              <img src="https://randomuser.me/api/portraits/women/67.jpg" alt="Emma Rodriguez" class="author-avatar">
+              <div class="author-info">
+                <h5>Emma Rodriguez</h5>
+                <p>Anniversary Guest</p>
+                <div class="rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="testimonial-card">
-          <div class="testimonial-text">
-            "The presidential suite was beyond expectations. The panoramic views, the butler service, every detail was perfect. This is now our go-to hotel in the city."
-          </div>
-          <div class="testimonial-author">
-            <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Michael Chen" class="author-avatar">
-            <div class="author-info">
-              <h5>Michael Chen</h5>
-              <p>Travel Blogger</p>
-              <div class="rating">
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star-half-alt"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="testimonial-card">
-          <div class="testimonial-text">
-            "We celebrated our anniversary here and the staff made it truly special. From the rose petals on the bed to the champagne, everything was perfect. Highly recommended!"
-          </div>
-          <div class="testimonial-author">
-            <img src="https://randomuser.me/api/portraits/women/67.jpg" alt="Emma Rodriguez" class="author-avatar">
-            <div class="author-info">
-              <h5>Emma Rodriguez</h5>
-              <p>Anniversary Guest</p>
-              <div class="rating">
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    </div>
+  </div>
+
+  <!-- Booking CTA Section -->
+  <div class="booking-cta animate__animated animate__fadeIn">
+    <div class="container">
+      <h2>Ready for an Unforgettable Stay?</h2>
+      <p class="section-subtitle" style="color: rgba(255,255,255,0.9); max-width: 700px; margin: 0 auto 3rem;">Book your luxury experience today and enjoy our exclusive member benefits.</p>
+      <button class="cta-btn">Book Your Stay Now</button>
     </div>
   </div>
 
@@ -743,19 +1246,38 @@
       } else {
         $('nav').removeClass('scrolled');
       }
+      
+      // Animate elements on scroll
+      $('.animate__animated').each(function() {
+        var elementTop = $(this).offset().top;
+        var elementBottom = elementTop + $(this).outerHeight();
+        var viewportTop = $(window).scrollTop();
+        var viewportBottom = viewportTop + $(window).height();
+        
+        if (elementBottom > viewportTop && elementTop < viewportBottom) {
+          $(this).addClass('animate__fadeIn');
+        }
+      });
     });
     
     // Smooth scrolling for anchor links
     $('a[href*="#"]').on('click', function(e) {
-      e.preventDefault();
+      if ($(this).attr('href') === '#' || $(this).attr('href') === '') {
+        e.preventDefault();
+        return;
+      }
       
-      $('html, body').animate(
-        {
-          scrollTop: $($(this).attr('href')).offset().top - 70,
-        },
-        500,
-        'linear'
-      );
+      if ($(this.hash).length) {
+        e.preventDefault();
+        
+        $('html, body').animate(
+          {
+            scrollTop: $(this.hash).offset().top - 70,
+          },
+          800,
+          'easeInOutCubic'
+        );
+      }
     });
     
     // Set active nav item on click
@@ -763,6 +1285,24 @@
       $('.nav-link').removeClass('active');
       $(this).addClass('active');
     });
+    
+    // Button click animations
+    $('.header-btn, .book-now-btn, .cta-btn').on('click', function() {
+      $(this).css('transform', 'scale(0.95)');
+      setTimeout(() => {
+        $(this).css('transform', '');
+      }, 200);
+    });
+    
+    // Initialize animations on page load
+    $(document).ready(function() {
+      // Add animation classes after page load
+      setTimeout(function() {
+        $('.navbar-brand').addClass('animate__animated animate__fadeInLeft');
+        $('.navbar-nav').addClass('animate__animated animate__fadeInRight');
+      }, 300);
+    });
   </script>
 
 </body>
+</html>
